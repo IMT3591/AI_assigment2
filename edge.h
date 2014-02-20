@@ -2,35 +2,21 @@
 #ifndef EDGE_H
 #define EDGE_H
 
+#include "stdfx.h"
+class Vertice;
+
 class Edge{
 	private:
 		bool 			status;
 		int				cost;
-		int				vert;
 		Edge*			nxt;
+		Vertice*	vert;
 	public:
-		Edge( int, int, Edge* );
+		Edge( int, Vertice*, Edge* );
+		~Edge();
 		Edge* getNext();
 		void	setNext( Edge* );
+		void	display();
 };
 
-Edge::Edge( int c, int v, Edge* n ){
-	status	= false;
-	cost		= c;
-	vert		= v;
-	nxt			= n;
-}
-
-//retrieve the next Edge
-Edge* Edge::getNext(){
-	return nxt;
-}
-
-//set the next edge
-void Edge::setNext( Edge* x){
-	nxt = x;
-}
-
-
 #endif
-
