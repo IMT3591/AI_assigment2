@@ -6,14 +6,32 @@ class Vertice;
 #include "edge.h"
 #include "vertice.h"
 
+struct Open{
+	 int 			estCost;
+	 int			curCost;
+	 Vertice* vert;
+	 Open 		nxt;
+};
+
+struct Closed{
+	Vertice* 	vert;
+	Closed
+}
+
 //	Variable declarations
 Vertice*	vTail;
 Vertice*	vStart;
+
 
 //	Function declarations
 void displayVert();
 void createEnv();
 
+Vertice* popOpen();
+void pushOpen( int, int, Vertice* );
+
+Vertice* popClosed();
+void pushClosed( int, int, Vertice* );
 
 //	Main 
 int main(){
@@ -33,6 +51,10 @@ void displayVert(){
 		x->display();											//call the vertice display function
 		x = x->getNext();									//go to next element in list
 	}
+}
+
+void shPath(int a, int b){
+	
 }
 
 void createEnv(){
