@@ -39,10 +39,10 @@ Agent::~Agent(){
 
 Node* Agent::findAStar(Vertice* first, Vertice* last){
 	goal=last;
-	totalCost = findShortest(first);
 	closed->actual=first;
 	closed->cost=0;
-	Edge* elist=first->eStart;
+	findShortest(closed);
+	Edge* elist=first->getEStart();
 	while(elist!=NULL){
 		push(elist,0,true);
 		elist->getNext();

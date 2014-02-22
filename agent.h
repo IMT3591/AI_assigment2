@@ -9,7 +9,7 @@ struct Node{
 	Node* previous;
 	Node* next;
 	int cost;
-}
+};
 
 class Agent{
 	private:
@@ -21,7 +21,7 @@ class Agent{
 		Vertice* environment;
 		int totalCost;
 
-		void recursive;
+		void recursive();
 		Node* pop(bool mode);
 		void push(Edge* elist, int previousCost, bool mode);
 		Node* findLast();
@@ -31,6 +31,6 @@ class Agent{
 		~Agent();
 		int findShortest(Node* first);
 		Node* findAStar(Vertice* first, Vertice* last);
-}
+};
 
 #endif
