@@ -17,6 +17,8 @@ class Edge{
 		Edge* getNext();
 		void	setNext( Edge* );
 		void	display();
+		Vertice* getVertice();
+		int getCost();
 };
 
 #endif
