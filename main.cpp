@@ -1,4 +1,4 @@
-
+//Magnus
 #include "stdfx.h"
 class Edge;
 class Vertice;
