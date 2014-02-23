@@ -31,3 +31,10 @@ void Edge::display(){
 }//function
 
 
+int	Edge::getCost(){
+	return cost;
+}
+
+Vertice* Edge::getVert(){
+	return vert;
+}

@@ -20,9 +20,13 @@ class Vertice{
 		Vertice*	getNext();
 		void			setNext( Vertice* );
 		void 			createEdge( int, Vertice* );
+		Edge*			getEdge();
 		bool 			checkId( int );
 		void			display();
 		void			printId();
+		int				getCost();
+		int				getId();
+		Vertice*	getVert();
 };
 
 #endif

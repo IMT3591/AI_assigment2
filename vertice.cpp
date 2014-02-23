@@ -49,3 +49,11 @@ void Vertice::display(){
 void Vertice::printId(){						//used by edge when displaying the link
 	cout << key;											//print just the key value
 }//function
+
+Edge*	Vertice::getEdge(){
+	return eStart;
+}
+
+int	Vertice::getId(){
+	return key;
+}
