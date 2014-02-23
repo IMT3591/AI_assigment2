@@ -12,30 +12,26 @@ struct Open{
 	 int			curCost;
 	 Vertice* vert;
 	 Open 	*	nxt;
+};
 
 };
 struct Closed{
-
 	Vertice* 	vert;
 	Closed	*	next;
+};
+
 //Variable declarations
 Vertice*	vTail;
 Vertice*	vStart;
+
 Open*			open;
 Closed*		closed;
+Agent* bender;
 
 //	Function declarations
-void 	shPath( Vertice* );
 void 	displayVert();
 void	createEnv();
-void	printOpen( Open* );
-int 	shPath( Vertice* a, int b);
-Agent*		bender;
-
-
-
-Vertice* popOpen();
-void pushOpen( int, int, Vertice* );
+void shPath(int a,int b);
 
 //	Main 
 int main(){
@@ -62,6 +58,7 @@ void displayVert(){
 		x = x->getNext();									//go to next element in list
 	}
 }
+
 
 			//Pop first el from fringe
 Vertice* popOpen( Open* a ){
@@ -105,6 +102,7 @@ void printOpen( Open* f ){
 		f->vert->printId(); cout << " ";
 	}
 }
+
 
 
 void shPath(int a, int b){

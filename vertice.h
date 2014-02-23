@@ -25,7 +25,6 @@ class Vertice{
 		void			display();
 		void			printId();
 		Edge*			getEStart();
-
 };
 
 #endif

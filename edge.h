@@ -14,6 +14,7 @@ class Edge{
 	public:
 		Edge( int, Vertice*, Edge* );
 		~Edge();
+
 		Edge* 		getNext();
 		void			setNext( Edge* );
 		void			display();
