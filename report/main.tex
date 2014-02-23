@@ -1,0 +1,38 @@
+%% Languages: norsk				
+%%						english			
+%% Styles:		twoside, 		The margins will differ dependent on right/left pages
+%%						openright		The first page is a "right" page
+%% indexes:		listings		Show figure list, table list
+%%						glossary		Show glossary and abbreviation list
+%%						todo				Show list of todo-notes in documents
+%%						%
+\documentclass[english]{gucreport}
+\input{gucreport}
+
+\begin{document}
+	\input{glossary}
+	\makefrontpages
+	\tableofcontents
+	\vfill \hfill \textbf{ Word count: \wordcount} % Requirement according to the template
+                                       % to print word count without appendix
+	\showindex		%%lists of figures, codes, tables, glossary, etc
+	
+	%% Chapters for the text
+	\input{chapters/task_a}
+	\input{chapters/task_b}
+	\input{chapters/task_c}
+	\input{chapters/task_d}
+	\input{chapters/task_e}
+	%\input{chapters/}
+	%\input{chapters/}
+
+	%% Bibliography
+	\bibliographystyle{unsrt}
+	\bibliography{main}
+
+	%% APPENDICES
+	\appendix %after this line all chapters will have leters instead of numbers
+	\input{appendices}	%include file for all appendices
+
+\end{document}
+
