@@ -14,7 +14,6 @@ struct Open{
 	 Open 	*	nxt;
 };
 
-};
 struct Closed{
 	Vertice* 	vert;
 	Closed	*	next;
@@ -43,9 +42,9 @@ int main(){
 
 	createEnv();
 	displayVert();
-	cout << "1"
+	cout << "1";
 	bender = new Agent(vStart);
-	cout << "2"
+	cout << "2";
 	shPath(3,5);
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
@@ -59,7 +58,7 @@ void displayVert(){
 	}
 }
 
-
+/**
 			//Pop first el from fringe
 Vertice* popOpen( Open* a ){
 	Vertice* ret = NULL;
@@ -103,7 +102,7 @@ void printOpen( Open* f ){
 	}
 }
 
-
+**/
 
 void shPath(int a, int b){
 	Vertice * A, * B;

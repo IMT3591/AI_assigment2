@@ -19,7 +19,7 @@ class Edge{
 		void			setNext( Edge* );
 		void			display();
 		int				getCost();
-		Vertice*	getVert();
+		Vertice*	getVertice();
 };
 
 #endif
