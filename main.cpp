@@ -5,27 +5,29 @@ class Vertice;
 
 #include "edge.h"
 #include "vertice.h"
+#include "agent.h"
 
 struct Open{
 	 int 			estCost;
 	 int			curCost;
 	 Vertice* vert;
-	 Open 		nxt;
+	 Open 	*	nxt;
 };
 
 struct Closed{
 	Vertice* 	vert;
-	Closed
-}
+	Closed	*	next;
+};
 
 //	Variable declarations
 Vertice*	vTail;
 Vertice*	vStart;
-
+Agent*		bender;
 
 //	Function declarations
 void displayVert();
 void createEnv();
+void shPath(int a,int b);
 
 Vertice* popOpen();
 void pushOpen( int, int, Vertice* );
@@ -40,7 +42,10 @@ int main(){
 	vTail->setNext( vTail );
 	createEnv();
 	displayVert();
-	
+	cout << "1"
+	bender = new Agent(vStart);
+	cout << "2"
+	shPath(3,5);
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
@@ -54,7 +59,17 @@ void displayVert(){
 }
 
 void shPath(int a, int b){
-	
+	Vertice * A, * B;
+	int i;
+	A=vStart->getNext();
+	for(i=0;i<=a;i++){
+		A=A->getNext();
+	}
+	B=vStart->getNext();
+	for(i=0;i<=b;i++){
+		B=B->getNext();
+	}
+	bender->findAStar(A,B);
 }
 
 void createEnv(){
@@ -64,7 +79,6 @@ void createEnv(){
 						*z = vStart;
 	ifstream 	in;												//Input file
 	in.open("vertice.lst");
-	
 	if( in.is_open() ){
 		in >> verts;											//Read number of vertices in graph
 		for( int i=1; i<=verts; i++){			//Create vertices in list with unique keys

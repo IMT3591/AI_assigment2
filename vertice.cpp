@@ -51,5 +51,5 @@ void Vertice::printId(){						//used by edge when displaying the link
 }//function
 
 Edge* Vertice::getEStart(){
-	return eStart;
+	return eStart->getNext();
 }

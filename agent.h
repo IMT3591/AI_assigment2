@@ -1,6 +1,7 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+#include "stdfx.h"
 #include "edge.h"
 #include "vertice.h"
 
