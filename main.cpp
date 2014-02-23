@@ -5,23 +5,20 @@ class Vertice;
 
 #include "edge.h"
 #include "vertice.h"
+#include "agent.h"
 
 struct Open{
 	 int 			estCost;
 	 int			curCost;
 	 Vertice* vert;
-	 Open* 		nxt;
+	 Open 	*	nxt;
+
 };
 struct Closed{
-	int 			totCost;
-	Vertice*	vert;
-	Closed*		nxt;
-	Closed( int t, Vertice* v, Closed* n){
-		totCost = t; vert = v; nxt = n;
-	}
-};
 
-//	Variable declarations
+	Vertice* 	vert;
+	Closed	*	next;
+//Variable declarations
 Vertice*	vTail;
 Vertice*	vStart;
 Open*			open;
@@ -33,6 +30,9 @@ void 	displayVert();
 void	createEnv();
 void	printOpen( Open* );
 int 	shPath( Vertice* a, int b);
+Agent*		bender;
+
+
 
 Vertice* popOpen();
 void pushOpen( int, int, Vertice* );
@@ -47,8 +47,10 @@ int main(){
 
 	createEnv();
 	displayVert();
-
-	shPath( vStart->getNext(), 4 );
+	cout << "1"
+	bender = new Agent(vStart);
+	cout << "2"
+	shPath(3,5);
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
@@ -104,41 +106,19 @@ void printOpen( Open* f ){
 	}
 }
 
-//Current position + id of goal node
-int shPath( Vertice* a, int goal){
-	int bCost = -1;
-	Open* x;
-	Open* locFringe = new Open();	//Start of local fringe
-	locFringe->nxt = NULL; locFringe->estCost = locFringe->curCost = 0;
-	Vertice* cur;
-	Edge* trav;
-	
-	trav = a->getEdge();
-	while( trav->getNext() != NULL ){
-		trav = trav->getNext();
-		pushOpen( locFringe, trav->getCost(), 0, trav->getVert() );
-	}
-	
-	printOpen( locFringe );
 
-	while( locFringe->nxt != NULL ){
-		x			= locFringe->nxt;						//Grab 1st element of list
-		cur 	= popOpen( locFringe );			//Pop vertice from PQ Fringe
-		cout << "\nRetrieve: "; cur->printId();
-		if( cur->checkId(goal) ){
-			if( bCost == -1 || bCost > x->estCost )	bCost = x->estCost;
-		}else{
-			trav 	= cur->getEdge();						//Grab start-edge
-			while( trav->getNext() != NULL ){	//For all edges in list
-				trav	= trav->getNext();				//Goto next element in list
-																				//Push vertice onto fringe - (PQ)
-				pushOpen( locFringe, 			 x->estCost + trav->getCost(), 	0, 
-									trav->getVert() );
-			}
-			printOpen( locFringe );
-		}
+void shPath(int a, int b){
+	Vertice * A, * B;
+	int i;
+	A=vStart->getNext();
+	for(i=0;i<=a;i++){
+		A=A->getNext();
 	}
-	return bCost;
+	B=vStart->getNext();
+	for(i=0;i<=b;i++){
+		B=B->getNext();
+	}
+	bender->findAStar(A,B);
 }
 
 void createEnv(){
@@ -148,7 +128,6 @@ void createEnv(){
 						*z = vStart;
 	ifstream 	in;												//Input file
 	in.open("vertice.lst");
-	
 	if( in.is_open() ){
 		in >> verts;											//Read number of vertices in graph
 		for( int i=1; i<=verts; i++){			//Create vertices in list with unique keys

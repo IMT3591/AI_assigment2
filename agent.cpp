@@ -23,6 +23,7 @@
 Agent::Agent(Vertice* env){
 	environment=env;
 	fringe=NULL;
+	cout << "Agent created";
 }
 
 /**
@@ -41,6 +42,7 @@ Node* Agent::findAStar(Vertice* first, Vertice* last){
 	goal=last;
 	closed->actual=first;
 	closed->cost=0;
+	cout << "looking for total cost";
 	findShortest(closed);
 	Edge* elist=first->getEStart();
 	while(elist!=NULL){
