@@ -8,7 +8,6 @@ class Vertice;
 
 struct Open{
 	 int 			estCost;
-	 int			curCost;
 	 Vertice* vert;
 	 Open* 		nxt;
 };
@@ -35,20 +34,19 @@ void	printOpen( Open* );
 int 	shPath( Vertice* a, int b);
 
 Vertice* popOpen();
-void pushOpen( int, int, Vertice* );
+void pushOpen( Open*, int, Vertice* );
 
 //	Main 
 int main(){
 	vTail		= new Vertice(-1, NULL, NULL);
 	vStart	=	new Vertice(-1, vTail, NULL);
 	vTail->setNext( vTail );
-	open 		= new Open();		open->estCost = -1;		open->curCost = -1;
+	open 		= new Open();		open->estCost = -1;
 													open->vert = NULL; 		open->nxt = NULL;
 
 	createEnv();
 	displayVert();
-
-	shPath( vStart->getNext(), 4 );
+	shPath( vStart->getNext()->getNext()->getNext(), 4 );
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
@@ -64,30 +62,40 @@ void displayVert(){
 			//Pop first el from fringe
 Vertice* popOpen( Open* a ){
 	Vertice* ret = NULL;
-	if( a->nxt != NULL ){			//If x isn't NULL
-		ret = a->nxt->vert;			//set ret to retrieved el's vertice
-		a->nxt = a->nxt->nxt;		//move open's nxt pointer to the second element
+	int cost = -1;
+	Open* x, *y;
+	while( a->nxt != NULL ){
+		if( cost == -1 || a->nxt->estCost < cost ){
+			cost = a->nxt->estCost;
+			ret = a->nxt->vert;
+			x = a;	
+		}
+		a = a->nxt;
 	}
+
+	y = x->nxt;	x->nxt = x->nxt->nxt;	
+	y->nxt=NULL;
+	delete y;
 	return ret;						// Return vertice
 }
 
-void pushOpen( Open* z, int e, int c, Vertice* v){
+void pushOpen( Open* z, int e, Vertice* v){
 	Open* a = z;
-	
-	Open* t = new Open(); t->estCost = e; t->vert = v; t->curCost = c;
-	while( a->nxt != NULL && !a->nxt->vert->checkId( v->getId() ))
+	Open* t = new Open(); t->estCost = e; t->vert = v;
+		//cHECK IF IT IS ALREADY IN THE LIST	
+	while( a->nxt != NULL && !a->nxt->vert->checkId( v->getId() )){
 		a = a->nxt;
-
+	}
 			//Remove element if exists
 	if( a->nxt != NULL && a->nxt->vert->checkId( v->getId() ) ){
 			//If existing element is better match
-		if( (a->estCost+a->curCost) <= (t->curCost+t->estCost) )	//Grab item
+		if( a->estCost < t->estCost ){	//Grab item
 			t = a->nxt;
+		}
 		a->nxt = a->nxt->nxt;			//Remove from fringe
 	}
-
 	a = z;		//Find position
-	while( a->nxt != NULL && !a->nxt->estCost >= e )
+	while( a->nxt != NULL && a->nxt->estCost >= t->estCost )
 		a = a->nxt;
 	t->nxt = a->nxt;	//Insert element
 	a->nxt = t;
@@ -100,7 +108,8 @@ void printOpen( Open* f ){
 	cout << "\nPQ: "; 
 	while( f->nxt != NULL ){
 		f = f->nxt;
-		f->vert->printId(); cout << " ";
+		f->vert->printId();
+		cout << "(" << f->estCost << ")\t";
 	}
 }
 
@@ -109,34 +118,38 @@ int shPath( Vertice* a, int goal){
 	int bCost = -1;
 	Open* x;
 	Open* locFringe = new Open();	//Start of local fringe
-	locFringe->nxt = NULL; locFringe->estCost = locFringe->curCost = 0;
-	Vertice* cur;
+	locFringe->nxt = NULL; locFringe->estCost = 0;
+	Vertice* cur;	
 	Edge* trav;
 	
 	trav = a->getEdge();
+		//Push edges from initial vertice to list
 	while( trav->getNext() != NULL ){
 		trav = trav->getNext();
-		pushOpen( locFringe, trav->getCost(), 0, trav->getVert() );
+		pushOpen( locFringe, trav->getCost(), trav->getVert() );
 	}
 	
-	printOpen( locFringe );
-
 	while( locFringe->nxt != NULL ){
 		x			= locFringe->nxt;						//Grab 1st element of list
 		cur 	= popOpen( locFringe );			//Pop vertice from PQ Fringe
-		cout << "\nRetrieve: "; cur->printId();
-		if( cur->checkId(goal) ){
-			if( bCost == -1 || bCost > x->estCost )	bCost = x->estCost;
-		}else{
-			trav 	= cur->getEdge();						//Grab start-edge
-			while( trav->getNext() != NULL ){	//For all edges in list
-				trav	= trav->getNext();				//Goto next element in list
-																				//Push vertice onto fringe - (PQ)
-				pushOpen( locFringe, 			 x->estCost + trav->getCost(), 	0, 
-									trav->getVert() );
-			}
-			printOpen( locFringe );
+		trav 	= cur->getEdge();						//Grab start-edge
+
+		cout << "\nRetrieve: ";	cur->printId();
+		if( cur->checkId( goal ) ){
+			cout << "\nFound goal: "; 
+			if( bCost == -1 || bCost > x->estCost )
+				bCost = x->estCost;
 		}
+		else{
+			while( trav->getNext() != NULL ){	//For all edges in list
+																				//Push vertice onto fringe - (PQ)
+				trav	= trav->getNext();				//Goto next element in list
+				int cost = x->estCost+trav->getCost();	//Current + edge cost
+				if( cost < bCost || bCost < 0)
+					pushOpen(locFringe, cost, trav->getVert());
+			}
+		}
+		printOpen( locFringe );
 	}
 	return bCost;
 }
