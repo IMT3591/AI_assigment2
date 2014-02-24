@@ -48,8 +48,7 @@ int main(){
 	createEnv();			//Generate graph environment
 	displayVert();		//Print out all vertices with their connected edges
 										//Test run for shortest path
-	vStart->getNext();
-	shPath( vStart->getNext(), 24 );
+	shPath( vStart->getNext()->getNext()->getNext(), 5 );
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
@@ -132,7 +131,6 @@ int shPath( Vertice* a, int goal){
 		//Push edges from initial vertice to list
 	while( trav->getNext() != NULL ){
 		trav = trav->getNext();	//Go to next element
-		cout << "\n" << "TR " << trav->getCost() << "\n";
 		pushOpen( locFringe, trav->getCost(), trav->getVert() );//Push to fringe
 	}
 	
@@ -144,7 +142,7 @@ int shPath( Vertice* a, int goal){
 		cout << "\nRetrieved: ";		// Print which edge is selected for expansion
 		cur->printId();							// Print vertice id
 		if( cur->checkId( goal ) ){	// Check if vertice is the goal node
-			cout << "\nFound goal: "; // Print that it found the goal
+			cout << "\nFound goal: " << goal << "\t" << x->estCost; // Print that it found the goal
 			if( bCost == -1 || bCost > x->estCost ) //Update low cost if lower
 				bCost = x->estCost;			
 		}//end goal state
@@ -174,7 +172,7 @@ void createEnv(){
 	Vertice		*x = vStart,							//Vertice ptrs for searching
 						*z = vStart;
 	ifstream 	in;												//Input file
-	in.open("../vertice.lst");
+	in.open("vertice.lst");
 	
 	if( in.is_open() ){
 		in >> verts;											//Read number of vertices in graph
