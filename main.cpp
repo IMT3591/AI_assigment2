@@ -33,7 +33,7 @@ void 	displayVert();
 void	createEnv();
 void	printOpen( Open* );
 int 	shPath( Vertice* a, int b);
-Vertice* popOpen();
+Open*	popOpen();
 void pushOpen( Open*, int, Vertice* );
 
 //	Main 
@@ -48,7 +48,8 @@ int main(){
 	createEnv();			//Generate graph environment
 	displayVert();		//Print out all vertices with their connected edges
 										//Test run for shortest path
-	shPath( vStart->getNext(), 4 );
+	vStart->getNext();
+	shPath( vStart->getNext(), 24 );
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
@@ -62,16 +63,13 @@ void displayVert(){
 	}
 }
 
-			//Pop first el from fringe
-Vertice* popOpen( Open* a ){
-	Vertice* ret = NULL;		//Initiate a return Vertice
+Open* popOpen( Open* a ){
 	int cost = -1;					//Variable to hold the currently lowest cost
 	Open *x, *y;						//Pointers to Open elements
 
 	while( a->nxt != NULL ){//Go through entire Fringe
 		if( cost == -1 || a->nxt->estCost < cost ){//if el has the lowest cost
 			cost = a->nxt->estCost;	//Update cost to the lowest value, yet
-			ret = a->nxt->vert;			//Set ret Vertice to the lowest vertice
 			x = a;									//Set ptr to the el before el with lowest cost
 		}
 		a = a->nxt;								//Skip to next element in Fringe
@@ -80,9 +78,8 @@ Vertice* popOpen( Open* a ){
 	y = x->nxt;						// Y points to the lowest Open
 	x->nxt = x->nxt->nxt;	// Hook out the element and move ptrs around
 	y->nxt=NULL;					// NULL-out the Open elements nxt
-	delete y;							// Delete the removed element
 	
-	return ret;						// Return vertice with lowest cost
+	return y;						// Return vertice with lowest cost
 }
 
 	// Push element onto fringe
@@ -140,11 +137,9 @@ int shPath( Vertice* a, int goal){
 	}
 	
 	while( locFringe->nxt != NULL ){
-		printOpen( locFringe );
-		x			= locFringe->nxt;						//Grab 1st element of list
-		cur 	= popOpen( locFringe );			//Pop vertice from PQ Fringe
+		x		= popOpen( locFringe );						//Grab 1st element of list
+		cur 	= x->vert; 			//Pop vertice from PQ Fringe
 		trav 	= cur->getEdge();						//Grab start-edge from vertice
-		printOpen( locFringe );
 		int cost = x->estCost;
 		cout << "\nRetrieved: ";		// Print which edge is selected for expansion
 		cur->printId();							// Print vertice id
@@ -158,18 +153,16 @@ int shPath( Vertice* a, int goal){
 																				//Push vertice onto fringe - (PQ)
 				trav	= trav->getNext();				//Goto next element in list
 				cost = 0;
-				cost = x->estCost() + trav->getCost();	//Current + edge cost
-				cout << "\n"; trav->getVert()->printId();
-				cout << "\tcost = estCost + travCost\t\t" << cost << "= " << x->estCost << " + " <<
-					trav->getCost();
+				cost = x->estCost + trav->getCost();	//Current + edge cost
+				//cout << "\n"; trav->getVert()->printId();
+				//cout << "\tcost = estCost + travCost\t\t" << cost << "= " << x->estCost << " + " <<
+				//	trav->getCost();
 				if( cost < bCost || bCost < 0) //If cost is lower than the currently
 																				//	optimal route
 					pushOpen(locFringe, cost, trav->getVert());//Push element to fringe
 			}//end pushing edges to stack
 		}//end non-goal-state
-		//printOpen( locFringe );//Print the fringe
-		int dummy;
-		cout <<"......";  cin >> dummy;
+		printOpen( locFringe );//Print the fringe
 	}
 	delete locFringe;//Delete the fringe - free up ram
 	return bCost;
@@ -181,7 +174,7 @@ void createEnv(){
 	Vertice		*x = vStart,							//Vertice ptrs for searching
 						*z = vStart;
 	ifstream 	in;												//Input file
-	in.open("vertice.lst");
+	in.open("../vertice.lst");
 	
 	if( in.is_open() ){
 		in >> verts;											//Read number of vertices in graph
