@@ -14,7 +14,7 @@
         Vertice* goal;
         Vertice* environment;
 **/
-
+int iteration=0;
 /**
   \brief Constructor that sets the environment and the goal of the agent
   \date  20142202 - Adrian Alberdi
@@ -23,7 +23,8 @@
 Agent::Agent(Vertice* env){
 	environment=env;
 	fringe=NULL;
-	cout << "Agent created";
+	open=NULL;
+	cout << "\nAgent created";
 }
 
 /**
@@ -39,15 +40,19 @@ Agent::~Agent(){
 **/
 
 Node* Agent::findAStar(Vertice* first, Vertice* last){
+	first->display(); last->display();
 	goal=last;
+	closed = new Node();
 	closed->actual=first;
 	closed->cost=0;
-	cout << "looking for total cost";
-	findShortest(closed);
+	cout << "\nlooking for total cost";
+	totalCost=findShortest(closed);
 	Edge* elist=first->getEStart();
+	cout << "\npushing from first vertice total cost " << totalCost;
+	cout << "\n number of iterations: " << iteration;
 	while(elist!=NULL){
 		push(elist,0,true);
-		elist->getNext();
+		elist = elist->getNext();
 	}
 	recursive();
 	return closed;
@@ -68,6 +73,7 @@ int Agent::findShortest(Node* first){
 		push(elist, first->cost, false);
 		elist = elist->getNext();
 	}
+	iteration++;
 	return findShortest(pop(false));
 }
 
@@ -82,7 +88,7 @@ void Agent::recursive(){
 		lastClosed->next=position;
 		position->previous=lastClosed;
 		position->next=NULL;
-		//cout >> "I've found the goal node";
+		cout << "I've found the goal node";
 	}else{
 		int distanceLeft=findShortest(position);
 		if(distanceLeft+position->cost==totalCost){
@@ -90,7 +96,7 @@ void Agent::recursive(){
 			lastClosed->next=position;
 			position->previous=lastClosed;
 			position->next=NULL;
-		//	cout >> "I'm at the vertice: "+position->actual->key;
+			cout << "I'm at the vertice: "; position->actual->display();
 		}
 		recursive();
 	}
@@ -124,31 +130,32 @@ Node* Agent::pop(bool mode){
 **/
 
 void Agent::push(Edge* elist, int previousCost, bool mode){
-	Node pushed;
-	pushed.actual = elist->getVertice();
-	int cost=pushed.cost=previousCost+elist->getCost();
-	if (fringe==NULL){
-		pushed.next=NULL;
-		if(!mode)fringe=&pushed;
-		else open=&pushed;
+	Node* pushed = new Node();
+	pushed->actual = elist->getVertice();
+	int cost=pushed->cost=previousCost+elist->getCost();
+	if ((fringe==NULL && !mode) || (open==NULL && mode)){
+		pushed->next=NULL;
+		if(mode)open=pushed;
+		else fringe=pushed;
 	}else{
 		Node* x,* y;
+		y=NULL;
 		if(!mode)x=fringe;
 		else x=open;
 		while (x!=NULL && cost>x->cost){
 			y=x;
 			x=x->next;
 		}
-		pushed.previous=y;
+		pushed->previous=y;
 		if(y==NULL){
-			if(!mode)fringe=&pushed;
-			else open=&pushed;
+			if(!mode)fringe=pushed;
+			else open=pushed;
 		}else{
-			y->next=&pushed;
+			y->next=pushed;
 		}
-		pushed.next=x;
+		pushed->next=x;
 		if(x!=NULL){
-			x->previous=&pushed;
+			x->previous=pushed;
 		}
 	}
 }
@@ -159,4 +166,13 @@ Node* Agent::findLast(){
 		last=last->next;
 	}
 	return last;
+}
+
+void Agent::printOpen(){
+	Node* foo = fringe;
+	while(foo!=NULL){
+		cout << "\nCost: " << foo->cost;
+		foo->actual->display();
+		foo=foo->next;
+	}
 }

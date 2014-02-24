@@ -1,6 +1,6 @@
 
 compile:
-	g++ -o run.exe vertice.cpp edge.cpp main.cpp agent.cpp
+	g++ -Wall -o run.exe vertice.cpp edge.cpp agent.cpp main.cpp
 
 clean:
 	rm -f run.exe

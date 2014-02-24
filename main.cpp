@@ -39,12 +39,9 @@ int main(){
 	vTail->setNext( vTail );
 	open 		= new Open();		open->estCost = -1;		open->curCost = -1;
 													open->vert = NULL; 		open->nxt = NULL;
-
 	createEnv();
 	displayVert();
-	cout << "1";
 	bender = new Agent(vStart);
-	cout << "2";
 	shPath(3,5);
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
@@ -108,11 +105,11 @@ void shPath(int a, int b){
 	Vertice * A, * B;
 	int i;
 	A=vStart->getNext();
-	for(i=0;i<=a;i++){
+	for(i=1;i<a;i++){
 		A=A->getNext();
 	}
 	B=vStart->getNext();
-	for(i=0;i<=b;i++){
+	for(i=1;i<b;i++){
 		B=B->getNext();
 	}
 	bender->findAStar(A,B);

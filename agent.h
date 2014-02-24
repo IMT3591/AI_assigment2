@@ -15,7 +15,6 @@ struct Node{
 class Agent{
 	private:
 		Node* fringe;
-
 		Node* open;
 		Node* closed;
 		Vertice* goal;
@@ -26,6 +25,7 @@ class Agent{
 		Node* pop(bool mode);
 		void push(Edge* elist, int previousCost, bool mode);
 		Node* findLast();
+		void printOpen();
 	public:
 		Agent();
 		Agent(Vertice* environment);
