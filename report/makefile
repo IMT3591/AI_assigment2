@@ -1,30 +1,36 @@
+CC1			= rm -f
+CC2			= pdflatex
 CF1			= -file-line-error 
-CF3			= -s nomencl.ist -o main.nls
+LOG			= >> build.log
 FILE		=	main
-REM1		=	*.aux *.bbl *.blg *.bst *.glg *.glo *.gls *.ilg *.ist *.lof *.lol *.lot *.nlo *.nls *.out *.tdo *.toc *.xdy 
-REM2		= *.log ${FILE}.pdf
+REM1		=	*.aux *.bbl *.blg *.bst *.glg *.glo *.gls *.ilg *.ist 
+REM2		= *.lof *.lol *.lot *.nlo *.nls *.out *.tdo *.toc *.xdy 
+REM3		= *.log ${FILE}.pdf
 
 ##		COMPILING FUNCTIONS
-build:  
-	pdflatex ${CF1} ${FILE}.tex
-small:
-	pdflatex ${CF1} ${FILE}.tex
-	pdflatex ${CF1} ${FILE}.tex
-index: bib glossary abbreviation
-full:	clean build index small postclean
+build: 
+	${CC2} ${CF1} ${FILE}.tex #${LOG}
+double:
+	${CC2} ${CF1} ${FILE}.tex #${LOG}
+	${CC2} ${CF1} ${FILE}.tex #${LOG}
+
+##		Full and new compilation
+small:	clean	build bib double
+full:		clean build index double
+
+##		Index/listing builds
+index:	bib glossary abbreviation
+bib:
+	bibtex main
+glossary: 
+	makeglossaries main 
+abbreviation:
+	makeindex main.nlo -s nomencl.ist -o main.nls
 
 ##		CLEANING FUNCTIONS
 clean:	preclean	postclean
 preclean:	
-	rm -f ${REM2} >> build.log
+	${CC1} ${REM3} ${LOG}
 postclean:
-	rm -f ${REM1} >> build.log
-
-#SPECIAL BUILDS
-bib:
-	bibtex main
-glossary: 
-	makeglossaries main #compile glossary
-abbreviation:
-	makeindex main.nlo -s nomencl.ist -o main.nls	#Compiles abbreviations
+	${CC1} ${REM1} ${REM2} ${LOG}
 
