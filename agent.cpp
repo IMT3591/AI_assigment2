@@ -54,7 +54,9 @@ Node* Agent::findAStar(Vertice* first, Vertice* last){
 		push(elist,0,true);
 		elist = elist->getNext();
 	}
+	printOpen();
 	recursive();
+	cout << &goal;
 	return closed;
 }
 
@@ -73,7 +75,7 @@ int Agent::findShortest(Node* first){
 		push(elist, first->cost, false);
 		elist = elist->getNext();
 	}
-	iteration++;
+	//iteration++;
 	return findShortest(pop(false));
 }
 
@@ -82,21 +84,30 @@ int Agent::findShortest(Node* first){
 **/
 
 void Agent::recursive(){
+	iteration++;
+	cout << "\nrecursion number: " << iteration;
 	Node* position=pop(true);
 	if(position->actual==goal){
 		Node* lastClosed=findLast();
 		lastClosed->next=position;
 		position->previous=lastClosed;
 		position->next=NULL;
-		cout << "I've found the goal node";
+		cout << "\nI've found the goal node The path I followed is: ";
+		printOpen();
 	}else{
 		int distanceLeft=findShortest(position);
-		if(distanceLeft+position->cost==totalCost){
+		if(distanceLeft==totalCost){
+			cout << "\nI moved to the next node";
 			Node* lastClosed=findLast();
 			lastClosed->next=position;
 			position->previous=lastClosed;
 			position->next=NULL;
-			cout << "I'm at the vertice: "; position->actual->display();
+			Edge* elist=position->actual->getEStart();
+			while(elist!=NULL){
+				push(elist,position->cost,true);
+				elist=elist->getNext();
+			}
+
 		}
 		recursive();
 	}
@@ -112,10 +123,12 @@ Node* Agent::pop(bool mode){
 	if(!mode){
 		ret=fringe;
 		fringe=fringe->next;
+		if(fringe!=NULL)
 		fringe->previous=NULL;
 	}else{
 		ret=open;
 		open=open->next;
+		if(open!=NULL)
 		open->previous=NULL;
 	}
 	return ret;
@@ -169,7 +182,7 @@ Node* Agent::findLast(){
 }
 
 void Agent::printOpen(){
-	Node* foo = fringe;
+	Node* foo = closed;
 	while(foo!=NULL){
 		cout << "\nCost: " << foo->cost;
 		foo->actual->display();

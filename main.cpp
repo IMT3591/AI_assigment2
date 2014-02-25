@@ -42,7 +42,7 @@ int main(){
 	createEnv();
 	displayVert();
 	bender = new Agent(vStart);
-	shPath(3,5);
+	shPath(1,24);
 	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
