@@ -5,7 +5,7 @@
 #include "edge.h"
 #include "vertice.h"
 
-struct Node{
+struct Node{						//structure used for lists
 	Vertice* actual;
 	Node* previous;
 	Node* next;
@@ -14,23 +14,24 @@ struct Node{
 
 class Agent{
 	private:
-		Node* fringe;
-		Node* open;
-		Node* closed;
+		Node* fringe;				//Fringe for shortest path algorithm
+		Node* open;				//Fringe for A* algorithm
+		Node* closed;				//Closed list for the A*
 		Vertice* goal;
 		Vertice* environment;
-		int totalCost;
+		int totalCost;				//Total cost of the path from the begging to the goal
 
+		int findShortest(Node* first);
 		void recursive();
 		Node* pop(bool mode);
 		void push(Edge* elist, int previousCost, bool mode);
 		Node* findLast();
-		void printOpen();
+		void printClosed();
+
 	public:
 		Agent();
 		Agent(Vertice* environment);
 		~Agent();
-		int findShortest(Node* first);
 		Node* findAStar(Vertice* first, Vertice* last);
 };
 

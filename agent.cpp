@@ -9,15 +9,18 @@
 /**
 	Variables:
 
-	Node* fringe;
-        Node* closed;
+	Node* fringe;                           //Fringe for shortest path algorithm
+        Node* open;                             //Fringe for A* algorithm
+        Node* closed;                           //Closed list for the A*
         Vertice* goal;
         Vertice* environment;
+        int totalCost;                          //Total cost of the path from the begging to the goal
 **/
-int iteration=0;
+
 /**
   \brief Constructor that sets the environment and the goal of the agent
   \date  20142202 - Adrian Alberdi
+	\Param Vertice* env environment where to move
 **/
 
 Agent::Agent(Vertice* env){
@@ -37,28 +40,29 @@ Agent::~Agent(){
 /**
   \brief Main function of the agent. Finds the shortest path to the destination.
   \date  20142202 - Adrian Alberdi
+	\Param Vertice* first Where the agent starts it's journey
+	\Param Vertice* goal  Where the user wants to go
 **/
 
 Node* Agent::findAStar(Vertice* first, Vertice* last){
-	first->display(); last->display();
 	goal=last;
 	closed = new Node();
 	closed->actual=first;
 	closed->cost=0;
-	cout << "\nlooking for total cost";
 	totalCost=findShortest(closed);
 	Edge* elist=first->getEStart();
-	cout << "\npushing from first vertice total cost " << totalCost;
-	cout << "\n number of iterations: " << iteration;
 	while(elist!=NULL){
 		push(elist,0,true);
 		elist = elist->getNext();
 	}
-	printOpen();
 	recursive();
-	cout << &goal;
+	printClosed();
 	return closed;
 }
+
+/**
+ * Private functions
+**/
 
 /**
   \brief Function that finds the cost to of the shortest path from the current position to the goal
@@ -75,27 +79,24 @@ int Agent::findShortest(Node* first){
 		push(elist, first->cost, false);
 		elist = elist->getNext();
 	}
-	//iteration++;
 	return findShortest(pop(false));
 }
 
 /**
- * Private functions.
+  \brief recursive function for running A* algorithm
+  \date  20142502 - Adrian Alberdi
 **/
 
 void Agent::recursive(){
-	iteration++;
-	cout << "\nrecursion number: " << iteration;
-	Node* position=pop(true);
-	if(position->actual==goal){
-		Node* lastClosed=findLast();
+	Node* position=pop(true);			//pop the first element of the open list
+	if(position->actual==goal){			//Check if is the goal node
+		Node* lastClosed=findLast();		//Saves the last node in the closed list and returns
 		lastClosed->next=position;
 		position->previous=lastClosed;
 		position->next=NULL;
 		cout << "\nI've found the goal node The path I followed is: ";
-		printOpen();
 	}else{
-		int distanceLeft=findShortest(position);
+		int distanceLeft=findShortest(position);//Check if he is in the right path
 		if(distanceLeft==totalCost){
 			cout << "\nI moved to the next node";
 			Node* lastClosed=findLast();
@@ -104,7 +105,7 @@ void Agent::recursive(){
 			position->next=NULL;
 			Edge* elist=position->actual->getEStart();
 			while(elist!=NULL){
-				push(elist,position->cost,true);
+				push(elist,position->cost,true);//pushes the edges to the open list
 				elist=elist->getNext();
 			}
 
@@ -116,6 +117,7 @@ void Agent::recursive(){
 /**
   \brief Function that pops an element out of the stack
   \date  20142202 - Adrian Alberdi
+	\Param bool mode, tells which list to pop from, if true fringe if false open list
 **/
 
 Node* Agent::pop(bool mode){
@@ -181,7 +183,7 @@ Node* Agent::findLast(){
 	return last;
 }
 
-void Agent::printOpen(){
+void Agent::printClosed(){
 	Node* foo = closed;
 	while(foo!=NULL){
 		cout << "\nCost: " << foo->cost;
