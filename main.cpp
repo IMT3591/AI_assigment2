@@ -1,7 +1,7 @@
 //Magnus
 #include "stdfx.h"
 
-class Edge;
+class Edge;		//Forward declaration of classes
 class Vertice;
 
 #include "edge.h"
