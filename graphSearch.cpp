@@ -8,21 +8,22 @@ class Vertice;
 //	Include external source code
 #include "edge.h"
 #include "vertice.h"
-#include "agent2.h" 	//	Magnus' Tree search algorithm
+#include "agent.h" 		// 	Adrians Graph search algorithm
 
 //	Variable declarations
 Vertice*	vStart;			//	Start element in list of Vertices
 Vertice*	vTail;			//	End element in list of Vertices
+Agent* 		bender;			//Declare agent variable
 char			graphFile[] = "vertice.lst";
 
 //	Function declarations
 void 	displayVert();
 void	createEnv();
 Vertice*	findVertice( int );
+void shPath(int a, int b); 	//Adrians shortest path algorithm
 
 //	Main 
 int main(){
-	Agent* bender;				//Declare agent variable
 	
 	//Initiate variables
 	vTail		= new Vertice(-1, NULL, NULL);	//Initiate the end of vertice list
@@ -30,10 +31,10 @@ int main(){
 	vTail->setNext( vTail );								//Set vTail to point to itsself
 
 	createEnv();												//Generate graph environment based on file
-	//displayVert();											//Display vertice list
-	bender = new Agent( findVertice(1), 1 );//Initiate the agent with start & goal
-	cout << "\nBender: \"This is the worst kind of graph traversal. The kind against graphs!\"";
-	bender->aStar(); 		//Run A Star Tree Search Algorithm
+
+	bender = new Agent(vStart); 				//Adrians agent graph version
+	shPath(1,24);
+	cout << "\n\nExiting the program successfully\n";
 	return 0;
 }
 
@@ -92,3 +93,17 @@ void createEnv(){
 	in.close();					//Close handle to file
 }
 
+void shPath(int a, int b){
+	Vertice *A, 
+ 					*B;
+	int i;
+	A = vStart->getNext();
+	for( i=1; i<a; i++ ){
+		A = A->getNext();                         //saves the node with id a in *A
+	}
+	B=vStart->getNext();
+	for( i=1; i<b; i++ ){
+		B = B->getNext();                         //saves the node with id b in *B
+	}
+	bender->findAStar( A, B );                         //call to the algorithm A*
+}

@@ -10,12 +10,13 @@ struct Fringe{
 	int 			estCost;	//Used by A* and shp
 	Vertice*	vert;			//The vertice it links to
 	Fringe*		nxt;			//Nxt Fringe element
+	
 	Fringe( ){					//Used for setting header elements
-		estCost = -1;	vert= NULL; nxt = NULL; travCost = -1;
+		estCost = 0;	vert= NULL; nxt = NULL; travCost = 0;
 	}
 											//Used for creating elements in shp
 	Fringe( int e, Vertice* v, Fringe* n ){
-		estCost = e;	vert= v; nxt = n; travCost = -1;
+		estCost = e;	vert= v; nxt = n; travCost = 0;
 	}
 											//Used for creating elements in A*
 	Fringe( int e, int t, Vertice* v, Fringe* n ){

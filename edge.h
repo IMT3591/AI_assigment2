@@ -19,8 +19,8 @@ class Edge{
 		void			setNext( Edge* );
 		void			display();
 		int				getCost();
-//		Vertice*	getVertice();	Adrian version
-		Vertice*	getVert();
+		Vertice*	getVertice();			//Used by Adrians alg
+		Vertice*	getVert();				//Used by Magnus' alg
 };
 
 #endif
