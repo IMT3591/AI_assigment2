@@ -24,9 +24,7 @@ class Vertice{
 		bool 			checkId( int );
 		void			display();
 		void			printId();
-		int				getCost();
-		int				getId();
-		Vertice*	getVert();
+		Edge*			getEStart();
 };
 
 #endif

@@ -50,10 +50,7 @@ void Vertice::printId(){						//used by edge when displaying the link
 	cout << key;											//print just the key value
 }//function
 
-Edge*	Vertice::getEdge(){
-	return eStart;
+Edge* Vertice::getEStart(){
+	return eStart->getNext();
 }
 
-int	Vertice::getId(){
-	return key;
-}

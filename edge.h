@@ -14,11 +14,12 @@ class Edge{
 	public:
 		Edge( int, Vertice*, Edge* );
 		~Edge();
+
 		Edge* 		getNext();
 		void			setNext( Edge* );
 		void			display();
 		int				getCost();
-		Vertice*	getVert();
+		Vertice*	getVertice();
 };
 
 #endif

@@ -30,11 +30,12 @@ void Edge::display(){
 	else				cout << "Broken";
 }//function
 
+Vertice* Edge::getVertice(){
+	return vert;
+}
+
 
 int	Edge::getCost(){
 	return cost;
 }
 
-Vertice* Edge::getVert(){
-	return vert;
-}
