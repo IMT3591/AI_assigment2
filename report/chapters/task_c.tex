@@ -1,12 +1,56 @@
 
 \chapter{Task C}
+This is the explanation of the different terms listed below, our results for
+this is listed below in their respective sections.
+\begin{description}
+\item[Completeness:			]
+	If there exists a goal state, will the agent find it during runtime?
+\item[Optimality:				]
+	Wheter the solution the agent finds is in fact the optimal path from A to B.
+\item[Time Complexity:	]
+	How long it will take for the agent to find the goal, if any.  We are
+	measuring this in the following manner -- \textit{How many lines of codes is
+	being executed during runtime}.  This is because it will yield a common value
+	not influenced by CPU-time and inaccurate clock measurments.
+\item[Memory Complexity:]
+	How much memory is required by the program to find the solution. We measure
+	this using Valgrind to compute how much memory is being used by the program.
+\end{description}
+
 \section{A* Tree Search}
-\begin{itemize}
-\item Optimal
-\item	Not complete
-\item	Memory: with valgrind
-\item Time: with exec line of code count
-\end{itemize}
+\begin{description}
+\item[Completeness:			]
+\item[Optimality:				]
+\item[Time Complexity:	]
+\item[Memory Complexity:]
+\end{description}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{	p{0.1\textwidth} p{0.1\textwidth} 
+									p{0.2\textwidth} p{0.2\textwidth} }\hline
+	Start & End & Time & Tot Memory \\\hline
+\end{tabular}
+\caption{Measured values for A* Tree Search}\label{tbl:sumTree}
+\end{table}
+
 \section{A* Graph Search}
+\begin{description}
+\item[Completeness:			]
+\item[Optimality:				]
+\item[Time Complexity:	]
+\item[Memory Complexity:]
+\end{description}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{	p{0.1\textwidth} p{0.1\textwidth} 
+									p{0.2\textwidth} p{0.2\textwidth} }\hline
+	Start & End & Time & Tot Memory \\\hline
+\end{tabular}
+\caption{Measured values for A* Graph Search}\label{tbl:sumGraph}
+\end{table}
+
+
 
 
