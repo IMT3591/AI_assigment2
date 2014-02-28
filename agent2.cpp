@@ -74,7 +74,7 @@ int Agent::shp( Vertice* v, int goal ){
 
 void Agent::aStar( ){
 	Fringe 	*tmpF;		Vertice	*tmpV;
-	Edge		*tmpE;		int			 tmpC = 0;
+	Edge		*tmpE;		int			tmpC 	= 0;
 	int			tmpT = 0;	int			oCost = -1;
 	Fringe* x 		= new Fringe( 0, 0, location, NULL );
 	Fringe* open	= new Fringe();
@@ -85,14 +85,15 @@ void Agent::aStar( ){
 		tmpV	= tmpF->vert;								//Grab vertice from fringe element
 		tmpE	= tmpV->getEdge();					//Grab start of edges from vertice
 		if( tmpV->checkId( goalKey ) ){
-			cout << "FOUND GOAL WITH A* AT " << tmpF->travCost << " COST";
-			if( oCost < 0 || oCost > tmpF->travCost ){
-				cout << "\nNEW OPTIMAL PATH AT " << tmpF->travCost << " COST";
+			cout << "\n\nFOUND GOAL WITH A* AT " << tmpF->travCost+tmpF->estCost << " COST";
+			if( oCost < 0 || oCost > tmpF->travCost+tmpF->estCost ){
+				cout << "\nNEW OPTIMAL PATH AT " << tmpF->travCost+tmpF->estCost << " COST";
 				oCost = tmpF->travCost;
 			}
+			cout << "\n\n";
 		}
-		else if( oCost < 0 || tmpF->travCost < oCost ){
-			cout << "\nAt: " << tmpV->getId() << "\n\tPushing: ";
+		else if( oCost < 0 || tmpF->travCost+tmpF->estCost < oCost ){
+			cout << "\nAt: " << tmpV->getId() << "\t\tPushing: ";
 			while( tmpE->getNext() != NULL ){	//While not end of edge list
 				tmpE	= tmpE->getNext();				//traverse to next edge
 				tmpT 	= tmpF->travCost + tmpE->getCost();	//Travel cost
@@ -105,6 +106,7 @@ void Agent::aStar( ){
 			cout << " to open list";
 		}
 		printFringe( open );	//Print fringe
+		//delete tmpF;
 	}//End open fringe
 }
 
@@ -114,9 +116,8 @@ void Agent::printFringe( Fringe* lst ){
 	while( el->nxt != NULL ){							// While next isnt't end of list
 		el = el->nxt;												// traverse to next element
 		el->vert->printId();								// print id of elements vertice link
-		cout << "[" << el->travCost << "/" << el->estCost << "]\t";//Print estimated cost
+		cout << "[" << el->travCost + el->estCost << "]  ";//Print estimated cost
 	}
-	//delete el;														//delete element
 }
 
 Fringe* Agent::popFringe( Fringe* fringe ){

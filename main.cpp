@@ -60,7 +60,8 @@ void createEnv(){
 	Vertice		*x = vStart,							//Vertice ptrs for searching
 						*z = vStart;
 	ifstream 	in;												//Input file
-	in.open("../vertice.lst");
+	in.open("vertice.lst");							//Linux link
+	//in.open("../vertice.lst");					//Windows link
 	
 	if( in.is_open() ){
 		in >> verts;											//Read number of vertices in graph
