@@ -19,7 +19,8 @@ class Edge{
 		void			setNext( Edge* );
 		void			display();
 		int				getCost();
-		Vertice*	getVertice();
+//		Vertice*	getVertice();	Adrian version
+		Vertice*	getVert();
 };
 
 #endif

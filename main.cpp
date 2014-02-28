@@ -16,7 +16,7 @@ Vertice*	vStart;		//	Start element in list of Vertices
 void 	displayVert();
 void	createEnv();
 Vertice*	findVertice( int );
-void shPath(int a, int b);
+//void shPath(int a, int b); Adrian version
 
 //	Main 
 int main(){
@@ -91,7 +91,7 @@ void createEnv(){
 	}//is_open
 	in.close();					//Close file handle
 }
-
+/**
 void shPath(int a, int b){
         Vertice * A, * B;
         int i;
@@ -106,3 +106,4 @@ void shPath(int a, int b){
         bender->findAStar(A,B);                         //call to the algorithm A*
 }
 
+**/

@@ -29,11 +29,14 @@ void Edge::display(){
 	if (status)	cout << "Operational";	//Whether the link is broken or not
 	else				cout << "Broken";
 }//function
-
+/**	Adrian version
 Vertice* Edge::getVertice(){
 	return vert;
 }
-
+**/
+Vertice* Edge::getVert(){
+	return vert;
+}
 
 int	Edge::getCost(){
 	return cost;

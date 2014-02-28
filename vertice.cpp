@@ -54,3 +54,10 @@ Edge* Vertice::getEStart(){
 	return eStart->getNext();
 }
 
+Edge* Vertice::getEdge(){
+	return eStart;
+}
+
+int Vertice::getId(){
+	return key;
+}
