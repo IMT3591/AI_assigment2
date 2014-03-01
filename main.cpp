@@ -19,6 +19,7 @@ char			graphFile[] = "vertice.lst";
 void 	displayVert();
 void	createEnv();
 Vertice*	findVertice( int );
+void	THERMONUCLEARDISASTER();
 
 //	Main 
 int main(){
@@ -40,12 +41,19 @@ int main(){
 	bender->aStar(); 		//Run A Star Tree Search Algorithm
 	
 	cout << "\nTIME: " << bender->getCount() << " lines of code\n";
+
+	THERMONUCLEARDISASTER();
+	displayVert();
 	
+	delete vStart;
+	delete vTail;
+	delete bender;
 	return 0;
 }
 
 /** Display the vertices and their edges ascending **/
 void displayVert(){
+	cout << "\nDisplaying vertices.\n";
 	Vertice* x = vStart->getNext();			//Vertice ptr set to first element
 	while ( x != vTail ){								//While the ptr isn't at the Tail
 		x->display();											//call the vertice display function
@@ -99,3 +107,13 @@ void createEnv(){
 	in.close();					//Close handle to file
 }
 
+//Go through vertice list and delete all verices
+//For each vertice delete its edges
+void	THERMONUCLEARDISASTER(){
+	Vertice	*cur;													//ptr to unhooked element
+	while( vStart->getNext() != vTail ){	//Until it is has removed all items
+		cur = vStart->getNext();						//set cur to first element
+		vStart->setNext( cur->getNext() );	//Unhook element from list
+		delete cur;													//delete element
+	}
+}

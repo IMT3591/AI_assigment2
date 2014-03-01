@@ -15,9 +15,16 @@ Agent::Agent( Vertice* x, int gKey ){
 	goalKey		= gKey;
 	travCost	= 0;
 	execCount	= 0;
+	cout << "\nBender: That's it we're boned.\n";
+	cout << "\nBender: Don’t touch my stuff when I’m dead…its booby trapped!\n";
 }
 
 Agent::~Agent(){
+	location	= NULL;
+	goalKey		= 0;
+	travCost	= 0;
+	execCount	= 0;
+	delete location;
 }
 
 void Agent::count( int c = 1 ){
@@ -89,9 +96,11 @@ int Agent::shp( Vertice* v, int goal ){
 			}//End going through the vertice's edges
 			//printFringe( locFringe );
 		}//End not goal node
-		//delete tmpF;  //Delete unhooked and used Fringe element
+		delete tmpF;  //Delete unhooked and used Fringe element
+		count( 9 );
 	}//End fringe traversal
-	//delete locFringe;
+	delete locFringe;
+	count( 9 );
 	cout << "\nTIME (shp): "  << getCount() << "\n";
 	return bCost;
 }

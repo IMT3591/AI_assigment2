@@ -13,6 +13,17 @@ Vertice::Vertice( int k, Vertice* v, char* n ){
 }//function
 
 Vertice::~Vertice(){
+	nxtVert = NULL;
+	delete nxtVert;
+	delete name;
+	Edge *x;
+	while( eStart->getNext() != NULL ){
+		x = eStart->getNext();
+		eStart->setNext( x->getNext() );
+		delete x;
+	}
+	delete eStart;
+	delete x;
 }//function
 
 Vertice* Vertice::getNext(){

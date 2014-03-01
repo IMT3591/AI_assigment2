@@ -21,6 +21,11 @@ struct Fringe{
 	Fringe( int e, int t, Vertice* v, Fringe* n ){
 		estCost = e;	travCost = t;	vert= v; nxt = n;
 	}
+
+	~Fringe(){
+		estCost = 0;	travCost = 0; vert=NULL, nxt=NULL;
+		delete vert; delete nxt;
+	}
 };
 
 class Agent{

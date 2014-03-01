@@ -10,6 +10,10 @@ Edge::Edge( int c, Vertice* v, Edge* n ){
 }//function
 
 Edge::~Edge(){
+	vert 	= NULL;
+	nxt 	= NULL;
+	delete vert;
+	delete nxt;
 }//function
 
 //retrieve the next Edge
