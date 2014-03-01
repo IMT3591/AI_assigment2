@@ -29,11 +29,18 @@ int main(){
 	vStart	=	new Vertice(-1, vTail, NULL);	//Initiate the start of vertice list
 	vTail->setNext( vTail );								//Set vTail to point to itsself
 
+	cout << "\nBender: \"Generate graph, baby.\"";
 	createEnv();												//Generate graph environment based on file
+	cout << "\nGraph generated";
+	cout << "\nBender: \"Shut up, baby. I know it.\"";
 	//displayVert();											//Display vertice list
-	bender = new Agent( findVertice(1), 1 );//Initiate the agent with start & goal
+
+	bender = new Agent( findVertice(1), 24 );//Initiate the agent with start & goal
 	cout << "\nBender: \"This is the worst kind of graph traversal. The kind against graphs!\"";
 	bender->aStar(); 		//Run A Star Tree Search Algorithm
+	
+	cout << "\nTIME: " << bender->getCount() << " lines of code\n";
+	
 	return 0;
 }
 

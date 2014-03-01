@@ -4,7 +4,6 @@
 #include "edge.h"
 #include "vertice.h"
 
-
 struct Fringe{
 	int				travCost;	//Used by A*, not shp
 	int 			estCost;	//Used by A* and shp
@@ -29,6 +28,7 @@ class Agent{
 		int 			goalKey;
 		Vertice*	location;
 		int 			travCost;
+		int				execCount;
 
 	public:
 		Agent();
@@ -40,6 +40,8 @@ class Agent{
 		void			pushFringe( Fringe*, Fringe* );
 		Fringe*		popFringe( Fringe* );
 		void 			printFringe( Fringe* );
+		int				getCount();
+		void			count( int );
 };
 
 #endif

@@ -5,6 +5,7 @@ Agent::Agent(){				//Zero constructor
 	location	= NULL;
 	goalKey		= 0;
 	travCost	= 0;
+	execCount	= 0;
 }
 
 //Used for creating the agent with an initial locaiton, a goal node and zeroed
@@ -13,9 +14,18 @@ Agent::Agent( Vertice* x, int gKey ){
 	location	= x;		
 	goalKey		= gKey;
 	travCost	= 0;
+	execCount	= 0;
 }
 
 Agent::~Agent(){
+}
+
+void Agent::count( int c = 1 ){
+	execCount += c;
+}
+
+int Agent::getCount( ){
+	return execCount;
 }
 
 void Agent::upInfo( Vertice* x, int gKey ){ //Used to update location and goal
@@ -32,19 +42,20 @@ int Agent::shp( Vertice* v, int goal ){
 	Fringe	*newF;		//used to create new fringe elements
 	Vertice	*tmpV;		//Holds the current fringe elements vertice
 	Edge		*tmpE;		//Holds the current edge at current vertice
-
+	count( 8 );
 	if( v->checkId( goal ) )		//If current node is the goal, cost is 0
 		return 0;									// avoids extra traversal and cost
 
 	Fringe* locFringe = new Fringe();	//The local fringe for algorithm
 	tmpE 		= v->getEdge();						//Get edgestar from vertice
 	tmpC 		= 0;											//resets the tmpC to 0
-	
+	count( 9 );
 	while( tmpE->getNext() != NULL ){	//Traverse the edges of current vertice
 		tmpE = tmpE->getNext();					//Set tmpE to next edge in list
 																		//Create new fringe element
 		newF = new Fringe( tmpE->getCost(), tmpE->getVert(), NULL );
 		pushFringe( locFringe, newF );	//Push fringe element to fringe
+		count( 13 );
 	}
 
 	while( locFringe->nxt != NULL ){	//Perform actions while fringe isn't empty
@@ -53,10 +64,13 @@ int Agent::shp( Vertice* v, int goal ){
 		tmpC = tmpF->estCost;						//Grab estimated cost from fringe element
 		tmpV = tmpF->vert;							//Grab link vertice form fringe element	
 		tmpE = tmpV->getEdge();					//Grab edge start from the vertice
+		
+		count( 9 );
 
 		if( tmpV->checkId( goal ) ){		//If current vertice is goal node
 			if( bCost == -1 || bCost > tmpF->estCost ){ //Check if currently best path
-				bCost = tmpF->estCost;			//Update path cost
+				bCost = tmpF->estCost + tmpF->travCost;			//Update path cost
+				count( 2 );
 			}//End if current lowest path cost
 		}//End goal node
 		else{														//If not goal node
@@ -65,10 +79,12 @@ int Agent::shp( Vertice* v, int goal ){
 				tmpV = tmpE->getVert();			//set tmpV to the edges vertice ptr
 				tmpC = 0;										//zero out tmpC
 				tmpC = tmpF->estCost + tmpE->getCost(); //Calculate new tmpC
+				count( 13 );
 				if( tmpC < bCost || bCost < 0 ){	//If tmpC is lower than optimal path
 																					//Create new fringe element with newF
 					newF = new Fringe( tmpC, tmpE->getVert(), NULL );
 					pushFringe( locFringe, newF );	//Push newF onto fringe
+					count( 9 );
 				}//End pushing new elements to fringe
 			}//End going through the vertice's edges
 			//printFringe( locFringe );
@@ -76,6 +92,7 @@ int Agent::shp( Vertice* v, int goal ){
 		//delete tmpF;  //Delete unhooked and used Fringe element
 	}//End fringe traversal
 	//delete locFringe;
+	cout << "\nTIME (shp): "  << getCount() << "\n";
 	return bCost;
 }
 
@@ -91,11 +108,13 @@ void Agent::aStar( ){
 	int			tmpC 	= 0;		//Holds the current cost
 	int			tmpT	= 0;		//Holds the current travel cost
 	int			oCost = -1;		//Holds the cost of the optimal path
+	count( 9 );
 
 	if( location->checkId( goalKey ) ){
 		cout << "\n\nBender: \"Game's over, losers! I'm allready at the solution, "
 				 <<	goalKey << "[" << 0 << "]. Compare your solution to "
 				 <<	"mine and then kill yourselves.\"";
+		cout << "\nTIME (shp): "  << getCount() << "\n";
 		return;
 	}
 
@@ -105,23 +124,27 @@ void Agent::aStar( ){
 	Fringe* open	= new Fringe();		//Create the fringe list to hold the elements
 	pushFringe( open, x );								//Push initial element onto fringe
 
+	count( 11 );
+
 	while( open->nxt != NULL ){						//While the fringe isn't empty
 		tmpF	= popFringe( open );					//Pop lowest element from fringe
 		tmpV	= tmpF->vert;									//Grab vertice from fringe element
 		tmpE	= tmpV->getEdge();						//Grab start of edges from vertice
 
+		count( 5 );
 		if( tmpV->checkId( goalKey ) ){			//If current item is the goal node
-			
 																				//Check if it is the optimal path
 			if( oCost < 0 || oCost > tmpF->travCost+tmpF->estCost ){
 				cout << "\n\nBender: \"Game's over, losers! I have found the solution, "
-						 <<	goalKey << "[" << tmpF->travCost << "]. Compare your solutions to "
+						 <<	goalKey << "[" << tmpF->travCost+tmpF->estCost << "]. Compare your solutions to "
 						 <<	"mine and then kill yourselves.\"";
 				oCost = tmpF->travCost;					//Print message and update oCost
+				count( 4 );
+				cout << "\nTIME (shp): "  << getCount() << "\n";
 			}	//End new best score check
 			cout << "\n";
+			count( 2 );
 		}//End goal check
-
 		else if( oCost < 0 || tmpF->travCost+tmpF->estCost < oCost ){
 			cout << "\n\nAt: " << tmpV->getId();
 		
@@ -133,6 +156,7 @@ void Agent::aStar( ){
 				x 		= new Fringe( tmpC, tmpT, tmpE->getVert(), NULL );
 				pushFringe( open, x );					//Push element to fringe
 				cout << "\t" << x->vert->getId() << "[" << tmpC + tmpT << "] ";
+				count( 20 );
 			}//End pushing new edges to fringe
 		}//End check if current fringe element has a lower optimal score
 
@@ -162,12 +186,15 @@ Fringe* Agent::popFringe( Fringe* fringe ){
 		if( tmpC == -1 || estC <= tmpC ){	//If best/equal cost
 			tmpC 		= estC;									//Update cost value to lowest/equal
 			tmpF2		= tmpF1;								//Element prior to real element
+			count( 2 );
 		}
 		tmpF1 		= tmpF1->nxt;						//Traverse to next element
+		count( 4 );
 	}
 	tmpF1	   		= tmpF2->nxt;						//Unlink element from list
 	tmpF2->nxt	= tmpF1->nxt;						//And link list back together
 	tmpF1->nxt	= NULL;									//Remove nxt link for return element
+	count( 9 );
 	return tmpF1;
 }
 
@@ -175,9 +202,11 @@ void Agent::pushFringe( Fringe* fringe, Fringe* el ){
 	Fringe* a = fringe;
 	int estC1 = el->estCost + el->travCost;
 	int estC2 = 0;
+	count( 3 );
 																	//find element prior to real element
 	while( a->nxt != NULL && !a->nxt->vert->checkId( el->vert->getId() ) ){
 		a = a->nxt;										//Move to next element
+		count( 5 );
 	}
 																	//If real element == the current element
 	if( a->nxt != NULL && a->nxt->vert->checkId( el->vert->getId() ) ){
@@ -186,15 +215,20 @@ void Agent::pushFringe( Fringe* fringe, Fringe* el ){
 																	//	to new element
 			el = a->nxt;								//Set new element pointer to real element
 			estC1 = estC2;
+			count( 3 );
 		}
 		a->nxt = a->nxt->nxt; 				//Unlink real element
+		count( 6 );
 	}
 	a = fringe;											//Set a to point to head of node
+	count( 2 );
 																	//Find position prior to the new elements 
 	while( a->nxt != NULL && ( a->nxt->estCost + a->nxt->travCost) >= estC1 ){ // position
 		a = a->nxt;										//Move to next element
+		count( 3 );
 	}
 	el->nxt = a->nxt;								//Link new element to list	
-	a->nxt = el;				
+	a->nxt = el;	
+	count( 2 );
 }
 
