@@ -35,6 +35,14 @@ Agent::Agent(Vertice* env){
 **/
 
 Agent::~Agent(){
+	deleteFringe();
+	deleteOpen();
+	deleteClosed();
+	environment=NULL;
+	delete environment;
+	goal=NULL;
+	delete goal;
+	totalCost=0;
 }
 
 /**
@@ -189,5 +197,55 @@ void Agent::printClosed(){
 		cout << "\nCost: " << foo->cost;
 		foo->actual->display();
 		foo=foo->next;
+	}
+}
+
+void Agent::deleteFringe(){
+	Node* foo;
+	while (fringe!=NULL){
+		fringe->actual=NULL;
+		delete fringe->actual;
+		fringe->cost=0;
+		foo=fringe;
+		fringe=fringe->next;
+		foo->previous=NULL;
+		delete foo->previous;
+		foo->next=NULL;
+		delete foo->next;
+		delete foo;
+	}
+	delete fringe;
+}
+
+void Agent::deleteOpen(){
+	Node* foo;
+	while (open!=NULL){
+		open->actual=NULL;
+		delete open->actual;
+		open->cost=0;
+		foo=open;
+		open=open->next;
+		foo->previous=NULL;
+		delete foo->previous;
+		foo->next=NULL;
+		delete foo->next;
+		delete foo;
+	}
+	delete open;
+}
+
+void Agent::deleteClosed(){
+	Node* foo;
+	while (closed!=NULL){
+		closed->actual=NULL;
+		delete closed->actual;
+		closed->cost=0;
+		foo=closed;
+		closed=closed->next;
+		foo->previous=NULL;
+		delete foo->previous;
+		foo->next=NULL;
+		delete foo->next;
+		delete foo;
 	}
 }

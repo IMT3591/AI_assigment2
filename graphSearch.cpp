@@ -35,6 +35,7 @@ int main(){
 	bender = new Agent(vStart); 				//Adrians agent graph version
 	shPath(1,24);
 	cout << "\n\nExiting the program successfully\n";
+	bender->~Agent();
 	return 0;
 }
 

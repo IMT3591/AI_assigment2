@@ -27,7 +27,9 @@ class Agent{
 		void push(Edge* elist, int previousCost, bool mode);
 		Node* findLast();
 		void printClosed();
-
+		void deleteFringe();
+		void deleteOpen();
+		void deleteClosed();
 	public:
 		Agent();
 		Agent(Vertice* environment);
