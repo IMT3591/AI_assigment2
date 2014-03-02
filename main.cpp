@@ -43,7 +43,6 @@ int main(){
 	cout << "\nTIME: " << bender->getCount() << " lines of code\n";
 
 	THERMONUCLEARDISASTER();
-	displayVert();
 	
 	delete vStart;
 	delete vTail;
@@ -110,10 +109,24 @@ void createEnv(){
 //Go through vertice list and delete all verices
 //For each vertice delete its edges
 void	THERMONUCLEARDISASTER(){
-	Vertice	*cur;													//ptr to unhooked element
+	Vertice	*cVe	= vStart->getNext();								//ptr to unhooked element
+	Edge		*cEd1;
+	Edge		*cEd2;
+	while( cVe != vTail ){	//Until it is has removed all items
+		cEd1 = cVe->getEdge();
+		while( cEd1->getNext() != NULL ){
+			cEd2 = cEd1->getNext();
+			cEd1->setNext( cEd2->getNext() );
+			delete cEd2;
+		}
+		cVe = cVe->getNext();
+	}
+	cEd1 = cEd2 = NULL;
+	delete cEd1;
+	delete cEd2;
 	while( vStart->getNext() != vTail ){	//Until it is has removed all items
-		cur = vStart->getNext();						//set cur to first element
-		vStart->setNext( cur->getNext() );	//Unhook element from list
-		delete cur;													//delete element
+		cVe = vStart->getNext();						//set cur to first element
+		vStart->setNext( cVe->getNext() );	//Unhook element from list
+		delete cVe;													//delete element
 	}
 }

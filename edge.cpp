@@ -14,8 +14,8 @@ Edge::~Edge(){
 	cost		= 0;
 	vert		= NULL;
 	nxt			= NULL;
-	delete	vert;
-	delete 	nxt;
+	delete vert;
+	delete nxt;
 }//function
 
 //retrieve the next Edge
