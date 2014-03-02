@@ -13,15 +13,17 @@ Vertice::Vertice( int k, Vertice* v, char* n ){
 }//function
 
 Vertice::~Vertice(){
+	key			= 0;				//Set the unique ID, auto incremented from main.cpp
+	visited = false;		//initial visited state
 	nxtVert = NULL;
-	delete nxtVert;
-	delete name;
 	Edge *x;
 	while( eStart->getNext() != NULL ){
 		x = eStart->getNext();
 		eStart->setNext( x->getNext() );
 		delete x;
 	}
+	delete nxtVert;
+	delete name;
 	delete eStart;
 	delete x;
 }//function

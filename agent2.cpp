@@ -20,10 +20,10 @@ Agent::Agent( Vertice* x, int gKey ){
 }
 
 Agent::~Agent(){
-	location	= NULL;
 	goalKey		= 0;
 	travCost	= 0;
 	execCount	= 0;
+	location	= NULL;
 	delete location;
 }
 
