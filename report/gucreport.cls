@@ -104,6 +104,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{bbding}
 \RequirePackage{caption}
+\RequirePackage{float}
 \RequirePackage{todonotes}
 
 %	Counters
