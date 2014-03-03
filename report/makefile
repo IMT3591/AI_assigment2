@@ -15,7 +15,8 @@ double:
 	${CC2} ${CF1} ${FILE}.tex #${LOG}
 
 ##		Full and new compilation
-small:	clean	build bib double
+small:	double
+normal:	clean	build bib double
 full:		clean build index double
 
 ##		Index/listing builds
