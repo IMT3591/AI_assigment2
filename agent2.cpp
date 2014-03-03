@@ -15,8 +15,6 @@ Agent::Agent( Vertice* x, int gKey ){
 	goalKey		= gKey;
 	travCost	= 0;
 	execCount	= 0;
-	cout << "\nBender: That's it we're boned.\n";
-	cout << "\nBender: Don’t touch my stuff when I’m dead…its booby trapped!\n";
 }
 
 Agent::~Agent(){
@@ -25,6 +23,9 @@ Agent::~Agent(){
 	execCount	= 0;
 	location	= NULL;
 	delete location;
+	cout << "\nBender is being deleted";
+	cout << "\nBender: That's it we're boned.\n";
+	cout << "\nBender: Don’t touch my stuff when I’m dead…its booby trapped!\n";
 }
 
 void Agent::count( int c = 1 ){
@@ -50,13 +51,14 @@ int Agent::shp( Vertice* v, int goal ){
 	Vertice	*tmpV;		//Holds the current fringe elements vertice
 	Edge		*tmpE;		//Holds the current edge at current vertice
 	count( 8 );
+	
 	if( v->checkId( goal ) )		//If current node is the goal, cost is 0
 		return 0;									// avoids extra traversal and cost
 
 	Fringe* locFringe = new Fringe();	//The local fringe for algorithm
 	tmpE 		= v->getEdge();						//Get edgestar from vertice
 	tmpC 		= 0;											//resets the tmpC to 0
-	count( 9 );
+	count( 16 );
 	while( tmpE->getNext() != NULL ){	//Traverse the edges of current vertice
 		tmpE = tmpE->getNext();					//Set tmpE to next edge in list
 																		//Create new fringe element
@@ -64,6 +66,8 @@ int Agent::shp( Vertice* v, int goal ){
 		pushFringe( locFringe, newF );	//Push fringe element to fringe
 		count( 13 );
 	}
+	newF = NULL;
+	delete newF;
 
 	while( locFringe->nxt != NULL ){	//Perform actions while fringe isn't empty
 		tmpC = 0;												//Reset tmpC to 0
@@ -97,11 +101,14 @@ int Agent::shp( Vertice* v, int goal ){
 			//printFringe( locFringe );
 		}//End not goal node
 		delete tmpF;  //Delete unhooked and used Fringe element
-		count( 9 );
+		newF = NULL; tmpV=NULL; tmpE=NULL;
+		delete newF;
+		delete tmpV;
+		delete tmpE;
+		count( 35 );
 	}//End fringe traversal
 	delete locFringe;
-	count( 9 );
-	cout << "\nTIME (shp): "  << getCount() << "\n";
+	count( 15 );
 	return bCost;
 }
 
@@ -149,7 +156,6 @@ void Agent::aStar( ){
 						 <<	"mine and then kill yourselves.\"";
 				oCost = tmpF->travCost;					//Print message and update oCost
 				count( 4 );
-				cout << "\nTIME (shp): "  << getCount() << "\n";
 			}	//End new best score check
 			cout << "\n";
 			count( 2 );
@@ -170,8 +176,17 @@ void Agent::aStar( ){
 		}//End check if current fringe element has a lower optimal score
 
 		printFringe( open );	//Print fringe
-		//delete tmpF;
+		delete tmpF;
 	}//End open fringe
+	
+	tmpV = NULL;
+	tmpE = NULL;
+	x 	 = NULL;
+	delete x;
+	delete open;
+	delete tmpV;
+	delete tmpE;
+	count( 36 );
 }
 
 void Agent::printFringe( Fringe* lst ){
@@ -182,6 +197,9 @@ void Agent::printFringe( Fringe* lst ){
 		el->vert->printId();								// print id of elements vertice link
 		cout << "[" << el->travCost + el->estCost << "]  ";//Print estimated cost
 	}
+	el = lst = NULL;
+	delete lst;
+	delete el;
 }
 
 Fringe* Agent::popFringe( Fringe* fringe ){
@@ -238,6 +256,9 @@ void Agent::pushFringe( Fringe* fringe, Fringe* el ){
 	}
 	el->nxt = a->nxt;								//Link new element to list	
 	a->nxt = el;	
-	count( 2 );
+	fringe = el = NULL;
+	delete fringe;
+	delete el;
+	count( 6 );
 }
 
