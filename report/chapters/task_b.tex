@@ -1,8 +1,35 @@
 
 \chapter{Task B}
+A* graph search has being implemented on a recursive manner. 
 \section{Environment changes}
+The main environment will not change from task A. This agent still works on Vertices and Edges. The difference is the way of storing the path. 
+The agent in task A stores it in an open list, in the other hand the agent in this case stores the final path in a closed list. The lists 
+implemented in this case are bidirectional so the traversal can be done both ways.
 
 \section{Agent description}
+
+The agent contains, as shown on the picture, the following fields:\\
+\begin{description}
+\item[Fringe:]Open list used in the heuristic, for which we use the shortest path algorithm. The fringe is a pointer to a list of Node, 
+a struct described in agent.h and on the picture.
+\item[Open:]Open list used in the A* algorithm. It's also a list of Nodes like the fringe.
+\item[Closed:]Closed list used to store the final path to the goal. As the Open list and the fringe the closed list is a list of struct Node.
+\item[Goal:]Pointer to the goal vertice, is used for compairesons during the hole A* algorithm.
+\item[Environment:]Pointer to the beginning of the vertice list. It contains the  environment and is used constantly.
+\end{description}
+
+To make the agent be able to execute the A* algorithm we created some helper functions:\\
+
+\begin{description}
+\item[findShortest:]Function used to calculate the heuristic value for the A* graph search. Recursivly it stacks values in the Fringe 
+and pops from there, until it finds the goal. It gives the total cost of the shortest path in return. It executes recursivly be making a call 
+to itself poping the next element in the fringe.
+\item[pop:]Funtion that returns the last element in the fringe or the open list, depending on the value of the parameter mode. After 
+taking the Node out of the list the list pointer is moved frontwords to the next most probable value.
+\item[push:]Function that puts new elements in the lists, it aranges it acording to the cost field int the Node struct. Depending on the 
+value provided in the mode parameter the function stores the new element in the fringe or in the open list.
+\item[recursive:]Recursive function for calculating the A* graph search algorithm.
+\end{description}
 
 
 \section{A* Star Graph Search algorithm}

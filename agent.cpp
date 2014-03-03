@@ -6,6 +6,10 @@
   \date   20142202 - Adrian Alberdi
 **/
 
+int timeComplexity=0;
+int shortestIteration=0;
+int recursiveI=0;
+
 /**
 	Variables:
 
@@ -59,12 +63,18 @@ Node* Agent::findAStar(Vertice* first, Vertice* last){
 	closed->cost=0;
 	totalCost=findShortest(closed);
 	Edge* elist=first->getEStart();
+	timeComplexity+=5;
 	while(elist!=NULL){
 		push(elist,0,true);
 		elist = elist->getNext();
+		timeComplexity+=2;
 	}
+	recursiveI++;
 	recursive();
 	printClosed();
+	cout << "\nTime complexity: " << timeComplexity;
+	cout << "\nRecusive iterations: " << recursiveI;
+	cout << "\nShortest path iterations: " << shortestIteration;
 	return closed;
 }
 
@@ -86,7 +96,10 @@ int Agent::findShortest(Node* first){
 	while(elist != NULL){
 		push(elist, first->cost, false);
 		elist = elist->getNext();
+		timeComplexity+=2;
 	}
+	timeComplexity+=2;
+	shortestIteration++;
 	return findShortest(pop(false));
 }
 
@@ -103,6 +116,7 @@ void Agent::recursive(){
 		position->previous=lastClosed;
 		position->next=NULL;
 		cout << "\nI've found the goal node The path I followed is: ";
+		timeComplexity+=5;
 	}else{
 		int distanceLeft=findShortest(position);//Check if he is in the right path
 		if(distanceLeft==totalCost){
@@ -112,12 +126,14 @@ void Agent::recursive(){
 			position->previous=lastClosed;
 			position->next=NULL;
 			Edge* elist=position->actual->getEStart();
+			timeComplexity+=7;
 			while(elist!=NULL){
 				push(elist,position->cost,true);//pushes the edges to the open list
 				elist=elist->getNext();
+				timeComplexity+=2;
 			}
-
 		}
+		recursiveI++;
 		recursive();
 	}
 }
@@ -141,6 +157,7 @@ Node* Agent::pop(bool mode){
 		if(open!=NULL)
 		open->previous=NULL;
 	}
+	timeComplexity+=6;
 	return ret;
 }
 
@@ -160,33 +177,41 @@ void Agent::push(Edge* elist, int previousCost, bool mode){
 		pushed->next=NULL;
 		if(mode)open=pushed;
 		else fringe=pushed;
+		timeComplexity+=8;
 	}else{
 		Node* x,* y;
 		y=NULL;
 		if(!mode)x=fringe;
 		else x=open;
+		timeComplexity+=8;
 		while (x!=NULL && cost>x->cost){
 			y=x;
 			x=x->next;
+			timeComplexity+=4;
 		}
 		pushed->previous=y;
 		if(y==NULL){
 			if(!mode)fringe=pushed;
 			else open=pushed;
+			timeComplexity+=4;
 		}else{
 			y->next=pushed;
+			timeComplexity+=2;
 		}
 		pushed->next=x;
 		if(x!=NULL){
 			x->previous=pushed;
-		}
+			timeComplexity+=3;
+		}else	timeComplexity+=2;
 	}
 }
 
 Node* Agent::findLast(){
 	Node* last=closed;
+	timeComplexity++;
 	while(last->next!=NULL){
 		last=last->next;
+		timeComplexity+=2;
 	}
 	return last;
 }
