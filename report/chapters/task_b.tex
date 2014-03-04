@@ -8,7 +8,13 @@ implemented in this case are bidirectional so the traversal can be done both way
 
 \section{Agent description}
 
-The agent contains, as shown on the picture, the following fields:\\
+\begin{figure}[h]\centering
+\includegraphics[ width={0.35\textwidth} ]{pictures/uml_agent.eps}
+\caption{Description of the A* graph search agent}
+\label{fig:uml_agent_graph}
+\end{figure}
+
+The agent contains, as shown on the figure \ref{fig:uml_agent_graph}, the following fields:\\
 \begin{description}
 \item[Fringe:]Open list used in the heuristic, for which we use the shortest path algorithm. The fringe is a pointer to a list of Node, 
 a struct described in agent.h and on the picture.
@@ -32,6 +38,29 @@ value provided in the mode parameter the function stores the new element in the 
 \end{description}
 
 
-\section{A* Star Graph Search algorithm}
+\begin{figure}[h]\centering
+\includegraphics[width=0.35\textwidth]{pictures/uml_node}
+\caption{Node structure for list implementation}
+\label{fig:node}
+\end{figure}
 
+
+The lists are implemented from the structure Node, see figure \ref{fig:node}. This structure olnly contains the fields:
+\begin{description}
+\item[Vertice* actual] the vertice pointer that will be used to know the position.
+\item[Node* next] next node in the list
+\item[Node* previous] is a double linked list, so it has links to the previous nodes.
+\item[Int cost] cost of the path to the actual vertice.
+\end{description}
+
+\section{A* Star Graph Search algorithm}
+The A* graph search implementation is described in this section. It's implemented as a recursive function.\\ 
+\begin{description}
+\item[The first step] will be to find the heuristic value of the shortest path. This value is calculated with the shortest path algorithm. 
+Once we have this value we will use it to make the decissions. We calculate the heuristics this way but the program will be working also 
+with other heuristic values.
+\item[Second] we add all the edges to the open list making the list longer and will make the program able to move forward.
+\item[Third] and last, the program will call itself poping a new element from the open list. If the poped elementis the goal the program 
+will finish. 
+\end{description}
 
