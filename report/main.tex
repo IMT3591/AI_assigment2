@@ -13,8 +13,6 @@
 	%\input{glossary}
 	\makefrontpages
 	\tableofcontents
-	\vfill \hfill \textbf{ Word count: \wordcount} % Requirement according to the template
-                                       % to print word count without appendix
 	\showindex		%%lists of figures, codes, tables, glossary, etc
 	
 	%% Chapters for the text
@@ -23,16 +21,27 @@
 	\input{chapters/task_c}
 	\input{chapters/task_d}
 	\input{chapters/task_e}
-	%\input{chapters/}
-	%\input{chapters/}
+	
+	\chapter{Run instructions}
+		Our code is separated into two different programs. The main.cpp will run the
+		tree search algorithm and the graphSearch.cpp will run the graph search
+		algorithm.
 
-	%% Bibliography
-	%\bibliographystyle{unsrt}
-	%\bibliography{main}
+		On windows the file path has to be altered to "../vertice.lst" instead of
+		"vertice.lst" or similar according to where it is located in relation to
+		where the executable is located.
 
-	%% APPENDICES
-	%\appendix %after this line all chapters will have leters instead of numbers
-	%\input{appendices}	%include file for all appendices
+		In visual studio import all files to the project and build and run either
+		graphSearch.cpp or main.cpp to test the software.
+
+		On linux run "make" to compile the tree search algorithm. Then execute 
+		"./run.exe" to test the program.
+
+		Use "make graph" to compile the graph search algorithm. Then also execute
+		"./run.exe" to the the program.  
+		
+		To measure the memory allocation and so on run "valgrind ./run.exe" in
+		terminal to run it, and on program exit it will display the memory usage.
 
 \end{document}
 
