@@ -1,5 +1,43 @@
 
 \chapter{Task D}
-\section{}
+\section{Dynamic environment}
+
+\subsection{Full sensing}
+With full sensing the agent can move continously and recalculate the optimal
+path when an environment change occurs. Since fully senses the environment it
+will take any obstructions into account when calculating the optimal path and
+next move. Therefore it will not hit any objects and continously move around
+paths that are obstructed.
+
+
+\subsection{Partial Sensing}
+When the agent senses or encounters an obstruction it must stop and retreat to
+the previous Vertice or stay on the current Vertice. Then it has to update the 
+environment and re-calculate the optimal path to decide which move to make next.
+
+\subsection{No waypoint addition}
+The inability to create new Vertices and Edges will hinder the possibility of
+discovering a shortcut to a Vertice or an intermediate vertice between two
+vertices.  This might result in a complete halt in the graph traversal or
+inability to find a result at all.
+
+If e.g one has a map of an area and it contains an articulation point. If this
+articulation point is obstructed one is not able to traverse the graph. If one
+has the ability to discover and add new edges and vertices one might find an
+edge or vertice that connects the two sub graphs and avoids the articulation
+point all together.
+
+Another reason why it would cause a problem is if a NPC in a game has a blocked
+path in the environment which is later unblocked. Inability to update this and
+add a new vertice and edge to the environment will make it unable to traverse
+this way, in which case it would come to a halt and gameplay would be much
+worse.
+
+In this case it would make sense to have the possibility of adding additional
+edges and vertices.  If however the task is to find the optimal path in the
+current environment it wouldn't make sense to have this ability.
+
+
+
 
 
