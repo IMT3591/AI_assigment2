@@ -19,23 +19,28 @@ this is listed below in their respective sections.
 
 \section{A* Tree Search}
 \begin{description}
-\item[Completeness:			]
-\item[Optimality:				]
-\item[Time Complexity:	]
-\item[Memory Complexity:]
+\item[Completeness:			]	If there exist a goal state the algorithm will find it
+	since it by continously expanding the currently cheapest path.
+\item[Optimality:				]	It will find the optimal cost, since our heuristic,
+	the shortest path, is never over estimated.
+\item[Time Complexity:	]	Time complexity is measured using the unity LOC(Lines
+	of Code) that is executed during runtime.
+\item[Memory Complexity:]	Memory complexity is measured using valgdring
+	measurement of total heap usage for the execution of the program.
 \end{description}
 
 \begin{table}[h]
 \centering
 \begin{tabular}{	p{0.1\textwidth} p{0.1\textwidth} 
-									p{0.2\textwidth} p{0.2\textwidth} }\hline
-	Start & End & Time & Tot Memory \\\hline
-	1		&	24 	& 	&	\\
-	24	&	1 	& 	&	\\
-	10	&	5 	& 	&	\\
-	5		&	10 	& 	&	\\
-	1		&	20 	& 	&	\\
-	20	&	1		&		&	\\
+									p{0.2\textwidth} p{0.2\textwidth} 
+									p{0.2\textwidth} }\hline
+	Start & End & Time measure & Total Memory \\\hline
+	1		&	24 	& 141 633 LOC	&	34 856 B\\
+	24	&	1 	& 225 807 LOC	&	49 040 B\\
+	10	&	5 	& 147 377 LOC	&	37 088 B\\
+	5		&	10 	& 374 089 LOC	&	67 496 B\\
+	1		&	20 	& 122 650 LOC	&	32 240 B\\
+	20	&	1		&	209 064 LOC	&	45 200 B\\
 \end{tabular}
 \caption{Measured values for A* Tree Search}\label{tbl:sumTree}
 \end{table}
