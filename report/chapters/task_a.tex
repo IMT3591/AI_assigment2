@@ -162,8 +162,24 @@ environment}
 The agent is created to traverse the graph using A* tree search algorithm. It
 applies this using the heuristic value by extrapolating using the shortest path
 algorithm implemented in "\textsc{shp( Vertice*, int )}" to calculate the
-shortest path from the upcoming Vertice to the goal. Then joining this value to the
-travel cost of getting to the upcoming Vertice.
+shortest path from the upcoming Vertice to the goal. Then joining this value to 
+the travel cost of getting to the upcoming Vertice.
+
+The A* Tree search algorithm is implemented in the agent function
+"\textsc{aStar()}" which creates a main fringe list, see section
+\ref{sec:fringe}, "localFringe" as the open list
+where it stores the frontier of un-visited vertices.  It doesn't keep track of
+the vertices it has visited so it will add any node it has just traveled on onto
+the fringe with an updated cost value.
+
+The fringe is implemented as a priority queue where the edge with the lowest
+estimated value are stored at the end of the list.  By turning this list around
+we would reduce the search time, but the number of fringe elements to search
+through isn't so large that it would matter.
+
+The fringe elements is inserted after calculating the shortest path of the
+vertice and the cost of getting to that vertice.  This total value is the total
+heuristic that is taken into account of the A* algorithm.
 
 \begin{description}
 \item[goalKey:]		Integer value holding the key of the goal vertice element.
@@ -190,12 +206,33 @@ travel cost of getting to the upcoming Vertice.
 
 
 
+\subsection{Fringe List}\label{sec:fringe}
+The fringe list is a list used to hold the information about visited and
+unvisited vertices in the agents memory.
 
-\subsection{Fringe List}
+The list is implemented as a priority queue where the elements are ordered
+descending according to their total heuristic value $f(n)=h(n)+g(n) => 
+f(n)=estCost+travCost$. Here "estCost" is the cost of the shortest path
+algorithm from the vertice to the goal and "travCost" is the sum of the path
+getting from the initial location to the vertice.
+
+The element that get retrieved from the list is allways the lowest item/the rear
+item of the list.  By doing this we will always check the path with lowest total
+value. either it being the A* algorithm or the shortest path algorithm.
 
 \begin{description}
-\item[]
+\item[travCost:]	Integer value describing the total cost of traveling to this
+	Vertice from the starting point of the algorithm.  This is the sum of the cost
+	of all edges traversed from initial state to current state.
+\item[estCost:]		Integer value describing the estimated cost of traveling from
+	this vertice to the goal state. This is estimated using the shortest path
+	algorithm from the vertice in question to the goal vertice.  This will allways
+	result in an admissable heuristic since it will never over estimate the lowest
+	value to the goal.
+\item[nxt:]				This is the link to the next element on the fringe. The last
+	element will link to NULL, which must be handled correctly.
 \end{description}
+
 \begin{figure}[h]\centering
 \includegraphics[ width={0.4\textwidth} ]{pictures/uml_fringe}
 \caption{UML description of the Fringe object}
@@ -203,16 +240,87 @@ travel cost of getting to the upcoming Vertice.
 \end{figure}
 
 
-\section{A* Star Tree Search algorithm}
+\section{A* Algorithm}
 
-\begin{description}
-\item[]
-\end{description}
+\subsection{Shortest path}
+The main difference between the A* and shortest path algorithm is that the
+shortest path algorithm doesn't take the currently traveled cost into
+consideration.  It will allways set the "travCost" value to zero and use that as
+the total "travCost" up until the current vertice. The "estCost" value will be 
+sum of the cost of the current path traveled.
+
+The shortest path algorithm is as follows.
+\begin{enumerate}
+\item Check if current state is the goal state. If the current Vertice is the
+	goal, return 0 as shortest path cost.
+\item Create and add all adjacent Edges with their corresponding Vertices to the
+	fringe by using the edge cost as their estCost value.
+\item While fringe list is not empty retrieve the cheapest option from fringe.
+	If not cheaper than current cheapest path skip the element and delete it.
+\begin{enumerate}
+\item Check if retrieved fringe element is the goal.  If goal state update the
+	optimal path cost if new lowest value.
+\item	If not goal state grab all adjacent edges from the vertice and create new
+	fringe elements which are pushed to the list.  This using the current elements
+	estimated cost value and new edge's cost as the new fringe elements cost.
+\item delete retrieved fringe element to free up memory.
+\end{enumerate}
+\item clean up remaining Fringe
+\item return the cheapest path cost
+\end{enumerate}
+
+
+
+\subsection{A* Tree Search}
+This algorithm makes use of the value derived from the shortest path algorithm
+as the heuristic.
+
+\begin{enumerate}
+\item Create open fringe to hold frontier
+\item Create element from inital state and push element to open fringe.
+\begin{itemize}
+\item Use current location for as the vertice
+\item Use zero as estimateed cost and travel cost.
+\end{itemize}
+
+\item while frontier isn't empty
+\begin{enumerate}
+	\item Pop cheapest element from fringe
+	\item If element is the goal state, update cheapest cost and print statement
+	\item If heuristic is lower than cheapest cost
+	\begin{enumerate}
+	\item extract vertice and travel cost from element
+	\item For each edge from vertice calculate shortest path to goal state.
+	\item Create new fringe elements.
+	\begin{itemize}
+	\item Use the current fringe elements travel cost plus the edge's cost as new 
+		travel cost.
+	\item Use the the shortest path value from adjacent vertice to goal as the 
+		heuristic for the estimated value.
+	\end{itemize}
+	\item Push new elements to open fringe.
+	\end{enumerate}
+	\item 
+	\item calculate the heuristic using the shortest path value from vertice to
+		goal. Set travel cost as the edge's cost value.
+	\item Create a new fringe element with the calculated heuristic.
+	\item Push element to fringe
+\end{enumerate}
+\item Pop cheapest element from fringe
+\begin{enumerate}
+	\item calculate shortest path for each of the adjacent vertices.
+	\item calculate the heuristic by combining the edge's cost and shortest path
+		value. Also add add the travel cost up to the vertice
+	\item Create a new fringe element with the calculated heuristic.
+	\item Push element to fringe
+\end{enumerate}
+\item 
+\end{enumerate}
+
 
 \begin{figure}
 \centering
 \includegraphics[ width={\textwidth} ]{pictures/tree_search}
 \caption{A* star tree search algorithm}
 \end{figure}
-
 
