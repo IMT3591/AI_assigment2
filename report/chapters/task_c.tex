@@ -47,10 +47,13 @@ this is listed below in their respective sections.
 
 \section{A* Graph Search}
 \begin{description}
-\item[Completeness:			]
-\item[Optimality:				]
-\item[Time Complexity:	]
-\item[Memory Complexity:]
+\item[Completeness:			]The algorithm finds the optimal path, but is not complete, It doesn't check all the expanded nodes.
+\item[Optimality:				]It will find the optimal cost, since our heuristic,
+	the shortest path, is never over estimated.
+\item[Time Complexity:	]Time complexity is measured using the unity LOC(Lines
+	of Code) that is executed during runtime.
+\item[Memory Complexity:]	Memory complexity is measured using valgdring
+	measurement of total heap usage for the execution of the program.
 \end{description}
 
 \begin{table}[h]
@@ -58,12 +61,12 @@ this is listed below in their respective sections.
 \begin{tabular}{	p{0.1\textwidth} p{0.1\textwidth} 
 									p{0.2\textwidth} p{0.2\textwidth} }\hline
 	Start & End & Time & Tot Memory \\\hline
-	1		&	24 	& 	&	\\
-	24	&	1 	& 	&	\\
-	10	&	5 	& 	&	\\
-	5		&	10 	& 	&	\\
-	1		&	20 	& 	&	\\
-	20	&	1		&		&	\\
+	1		&	24 	& 13 563 464 LOC	&	171,288 B\\
+	24	&	1 	& 64 955 334 LOC	&	340,440 B\\
+	15	&	7 	& 508 587 903 LOC	&	913,592 B\\
+	7		&	15 	& 71 137 158 LOC	&	391,512 B\\
+	1		&	20 	& 5 340 836 LOC	&	111,192 B\\
+	20	&	1		&	7 615 458 LOC	&	122,488 B\\
 \end{tabular}
 \caption{Measured values for A* Graph Search}\label{tbl:sumGraph}
 \end{table}
