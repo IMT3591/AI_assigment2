@@ -1,5 +1,31 @@
 
 \chapter{Task E}
-\section{}
+\section{Change management}
+The bots have multiple ways of sensing the environment. An NPC will initially
+receive the whole environment of static objects in the environment; houses,
+structures and un-movable objects.  Based on this it plot its course and then
+maintain an partially observable environment of a perimeter around itsself.
+
+In this perimeter the NPC will be able to sense changes as they happen. Any
+object entering the NPC's perimeter will bew added to its memory when they
+are sensed through viewing.
+
+Other live objects will be implemented into the environment as they are seen
+and if they are touched without viewing them, i.e backing into a crate/wall or
+being attacked).
+
+Once they move out of the NPC's perimeter they will be removed from its memory
+and then re-appear when they re-enter its perimeter.
+
+\section{Methods of sensing}
+The NPC's methods of sensing that an object appears in its path is through the
+environment that depicts all static objects, and that the NPC receive a
+specified environment from the server during gameplay about where it is and what
+is in its personal perimiter.
+
+Based on this the static objects will be avoided from the start, but dynamic
+changes will be updated when they enter the NPC's perimiter.  Either through
+touch or viewing.
+
 
 
