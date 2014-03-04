@@ -33,7 +33,17 @@ int main(){
 	createEnv();												//Generate graph environment based on file
 
 	bender = new Agent(vStart); 				//Adrians agent graph version
-	shPath(1,24);
+	
+	int s=1, e=24;			//Id of start and end node
+	do{
+		cout << "\nRead in start and edge id between 1-24, \"0 0\" to quit:\t";
+		cin  >> s >> e;				//Read in 2 integers form stdin
+		if( (s >= 1 && s <= 24) && ( e >= 1 && e <= 24) ){//If integers in range
+			cout << "\nBender: \"Traversing from \"" << s << " to " << e << ".\"";
+			shPath(s, e); 			//Start algorithm
+		}
+	}while( (s >= 1 && s <= 24) && ( e >= 1 && e <= 24) );
+	
 	cout << "\n\nExiting the program successfully\n";
 	bender->~Agent();
 	return 0;
