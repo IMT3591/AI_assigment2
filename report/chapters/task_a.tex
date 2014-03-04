@@ -270,10 +270,16 @@ The shortest path algorithm is as follows.
 \end{enumerate}
 
 
-
 \subsection{A* Tree Search}
 This algorithm makes use of the value derived from the shortest path algorithm
-as the heuristic.
+as the heuristic.  An example of A* Tree search is shown in figure
+\ref{fig:astar_1} \& \ref{fig:astar_2}, where it uses the shortest path
+algorithm as heuristic and the blue vertices are the vertices currently on the
+fringe and green is the vertice the agent is currently at. Once it reaches the
+goal state(24), it will continue popping the lowest value and checking if it is
+lower than the optimal path cost before deleting them. A better way would be to
+delete the remaining vertices and exiting, but it doesn't matter for this tiny
+graph.
 
 \begin{enumerate}
 \item Create open fringe to hold frontier
@@ -282,45 +288,38 @@ as the heuristic.
 \item Use current location for as the vertice
 \item Use zero as estimateed cost and travel cost.
 \end{itemize}
-
 \item while frontier isn't empty
 \begin{enumerate}
 	\item Pop cheapest element from fringe
 	\item If element is the goal state, update cheapest cost and print statement
 	\item If heuristic is lower than cheapest cost
 	\begin{enumerate}
-	\item extract vertice and travel cost from element
-	\item For each edge from vertice calculate shortest path to goal state.
-	\item Create new fringe elements.
-	\begin{itemize}
-	\item Use the current fringe elements travel cost plus the edge's cost as new 
-		travel cost.
-	\item Use the the shortest path value from adjacent vertice to goal as the 
-		heuristic for the estimated value.
-	\end{itemize}
-	\item Push new elements to open fringe.
+		\item extract vertice and travel cost from element
+		\item For each edge from vertice calculate shortest path to goal state.
+		\item Create new fringe elements.
+		\begin{itemize}
+			\item Use the current fringe elements travel cost plus the edge's cost as 
+				new travel cost.
+			\item Use the the shortest path value from adjacent vertice to goal as the
+			heuristic for the estimated value.
+		\end{itemize}
+		\item Push new elements to open fringe.
 	\end{enumerate}
-	\item 
-	\item calculate the heuristic using the shortest path value from vertice to
-		goal. Set travel cost as the edge's cost value.
-	\item Create a new fringe element with the calculated heuristic.
-	\item Push element to fringe
+\item[4.] Clean up used variables
 \end{enumerate}
-\item Pop cheapest element from fringe
-\begin{enumerate}
-	\item calculate shortest path for each of the adjacent vertices.
-	\item calculate the heuristic by combining the edge's cost and shortest path
-		value. Also add add the travel cost up to the vertice
-	\item Create a new fringe element with the calculated heuristic.
-	\item Push element to fringe
-\end{enumerate}
-\item 
+\item[4.] Clean up used variables
+\item Exit A* algorithm
 \end{enumerate}
 
+\begin{figure}[h]\centering
+\includegraphics[ clip=true, trim={0 1500 0 0}, width={0.81\linewidth} ]{pictures/tree_search}
+\caption{A* star tree search algorithm - First 4 expansions}
+\label{fig:astar_1}
+\end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[ width={\textwidth} ]{pictures/tree_search}
-\caption{A* star tree search algorithm}
+\begin{figure}[h]\centering
+\includegraphics[ clip=true, trim={0 0 0 1500}, width={0.82\linewidth} ]{pictures/tree_search}
+\caption{A* star tree search algorithm - Last 4 expansions}
+\label{fig:astar_2}
 \end{figure}
 
