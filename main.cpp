@@ -34,13 +34,20 @@ int main(){
 	createEnv();												//Generate graph environment based on file
 	cout << "\nGraph generated";
 	cout << "\nBender: \"Shut up, baby. I know it.\"";
-	//displayVert();											//Display vertice list
 
+	int s=1, e=24;
 	bender = new Agent( findVertice(1), 24 );//Initiate the agent with start & goal
-	cout << "\nBender: \"This is the worst kind of graph traversal. The kind against graphs!\"";
-	bender->aStar(); 		//Run A Star Tree Search Algorithm
-	
-	cout << "\nTIME: " << bender->getCount() << " lines of code\n";
+	do{
+		cout << "\nRead in start and edge id between 1-24, \"0 0\" to quit:\t";
+		cin  >> s >> e;
+		if( (s >= 1 && s <= 24) && ( e >= 1 && e <= 24) ){
+			cout << "\nBender: \"This is the worst kind of graph traversal. The kind against graphs!\"";
+			bender->upInfo( findVertice( s ), e );
+			cout << "\nBender: \"Traversing from \"" << s << " to " << e << ".\"";
+			bender->aStar(); 		//Run A Star Tree Search Algorithm
+			cout << "\nTIME: " << bender->getCount() << " lines of code\n";
+		}
+	}while( (s >= 1 && s <= 24) && ( e >= 1 && e <= 24) );
 
 	THERMONUCLEARDISASTER();
 	

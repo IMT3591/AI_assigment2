@@ -40,6 +40,7 @@ void Agent::upInfo( Vertice* x, int gKey ){ //Used to update location and goal
 	location	= x;
 	goalKey		= gKey;
 	travCost	= 0;
+	execCount	= 0;
 }
 
 /**	Finds the cost of the shortest path from vertice and to the goal node	**/
